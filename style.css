@@ -1,0 +1,20 @@
+body{
+background: url(images/background/background-body.jpg);
+background-repeat: no-repeat;
+background-size: cover;
+}
+
+.mt-6 { margin-top: 10rem !important; 
+}
+
+.ms-6 { margin-left: 25rem !important; 
+}
+
+.me-6 { margin-right: 25rem !important; 
+}
+
+.mb-6 { margin-bottom: 25rem !important; 
+}
+.imgExemple{
+    width: 50%;
+}
