@@ -1,20 +1,157 @@
-body{
-background: url(images/background/background-body.jpg);
-background-repeat: no-repeat;
-background-size: cover;
+body {
+    background: url(images/background/background-body.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+
 }
 
-.mt-6 { margin-top: 10rem !important; 
+
+.mt-6 {
+    margin-top: 10rem !important;
 }
 
-.ms-6 { margin-left: 25rem !important; 
+.ms-6 {
+    margin-left: 35rem !important;
 }
 
-.me-6 { margin-right: 25rem !important; 
+.me-6 {
+    margin-right: 35rem !important;
 }
 
-.mb-6 { margin-bottom: 25rem !important; 
+.mb-6 {
+    margin-bottom: 25rem !important;
 }
-.imgExemple{
+
+.mt-7 {
+    margin-top: 5rem !important;
+}
+
+.ms-7 {
+    margin-left: 45rem !important;
+}
+
+.me-7 {
+    margin-right: 45rem !important;
+}
+
+.mb-7 {
+    margin-bottom: 17% !important;
+}
+
+
+.imgExemple {
     width: 50%;
 }
+
+.logoVerif {
+    width: 25px;
+    align-items: center;
+
+}
+
+.inputSaisie {
+    background: transparent;
+    outline: none;
+    border: none;
+}
+
+input::placeholder {
+    color: rgb(97, 74, 74);
+
+}
+
+.labelSubscribe {
+    font-weight: bold;
+}
+
+.form-control,
+.form-control:focus {
+    box-shadow: none;
+    background: transparent;
+    /* outline: none; */
+    /* border: none; */
+    border-color: black;
+}
+
+#divEmailConnexion,
+#divPwdConnexion {
+    font-weight: 700;
+
+}
+
+.imgAvatar{
+    width: 75px;
+}
+
+
+
+/* ---------- Configuration Responsive 1500px---------- */
+
+@media screen and (max-width: 1500px) {
+    body {
+        /* Contradiction : si écran <400px, forcer le body à 400px */
+    }
+
+    /* .divParentNavBar {
+        flex-direction: column !important;
+        margin-left: 50px !important;
+        margin-right: 50px !important;
+        justify-content: center !important;
+    } */
+
+    /* .divBtnNavBar */
+
+    .divBtnNavBar {
+        margin: 10px 20px 10px 20px !important;
+    }
+    #divMainContent{
+        margin: 130px !important;
+    }
+}
+
+/* ---------- Configuration Responsive 600px---------- */
+
+@media screen and (max-width: 600px) {
+
+    .divParentNavBar {
+        flex-direction: column !important;
+        margin-left: 50px !important;
+        margin-right: 50px !important;
+        justify-content: center !important;
+    }
+
+    /* .divBtnNavBar */
+
+    .divBtnNavBar {
+        margin: 10px 20px 10px 20px !important;
+    }
+
+
+    #divMainContent{
+        margin: 30px !important;
+        justify-content: flex-start !important;
+    }
+
+    #divMainContent.divMainContentConnexion{
+        margin: 70px !important;
+    }
+
+    #H2MainContent{
+        padding: 10px !important;
+    }
+
+    #TitleDivMainContent{
+        text-align: center !important;
+    }
+
+    label{
+        font-size: small;
+    }
+    .BtnConnexion{
+        padding: 5px 10px 5px 10px !important;
+    }
+    span{
+        margin: 5px;
+    }
+}
+

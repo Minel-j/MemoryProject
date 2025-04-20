@@ -1,7 +1,8 @@
 //Déclaration de variables
 let nomDePage = 'Accueil'
-window.onload = init
+window.addEventListener('load', init);
 let pageActuelle = 0
+let structureMainActuelle = "d-flex flex-column  justify-content-center mt-6 ms-6 me-6 mb-6 bg-light border border-dark border-2 rounded-3";
 
 function init() {
 
@@ -24,7 +25,7 @@ function structureNavBar() {
     // 1. Créer la div parente
     const container = document.createElement("div");
     container.id = "divParentNavBar";
-    container.className = "d-flex justify-content-around border-dark border border-2 rounded-3 pt-2 pb-2 ms-4 me-4 bg-light rounded-3";
+    container.className = "d-flex justify-content-around border-dark border border-2 rounded-3 pt-2 pb-2 ms-4 me-4 bg-light rounded-3 divParentNavBar";
     container.style = "--bs-bg-opacity: .5;"
 
 
@@ -33,6 +34,7 @@ function structureNavBar() {
         // Créer une div enfant
         const childDiv = document.createElement("div");
         childDiv.id = `divEnfant${i}`;
+        childDiv.className = 'btn btn-success divBtnNavBar'
 
 
         // Créer un bouton
@@ -54,18 +56,23 @@ function structureNavBar() {
     const btnnNavBar1 = document.getElementById('buttonNavBar1')
     btnnNavBar1.textContent = 'Accueil'
     btnnNavBar1.id = 'btnAccueil'
+
     const btnnNavBar2 = document.getElementById('buttonNavBar2')
     btnnNavBar2.textContent = 'Inscription'
     btnnNavBar2.id = 'btnInscription'
+
     const btnnNavBar3 = document.getElementById('buttonNavBar3')
     btnnNavBar3.textContent = 'Connexion'
     btnnNavBar3.id = 'btnConnexion'
+
     const btnnNavBar4 = document.getElementById('buttonNavBar4')
     btnnNavBar4.textContent = 'Profil'
     btnnNavBar4.id = 'btnProfil'
+
     const btnnNavBar5 = document.getElementById('buttonNavBar5')
     btnnNavBar5.textContent = 'Jouer'
     btnnNavBar5.id = 'btnJouer'
+
 
 }
 
@@ -98,12 +105,12 @@ function structureHeader() {
 function structureMain() {
     const container = document.createElement("div");
     container.id = "divMainContent";
-    container.className = "d-flex flex-column justify-content-center mt-6 ms-6 me-6 mb-6 bg-light border border-dark border-2 rounded-3";
-    container.style = "--bs-bg-opacity: .5;"
+    container.className = structureMainActuelle
+    container.style = "--bs-bg-opacity: .5; min-height: calc(100vh - 150px);";
 
     const temponDivMainToDivMain = document.createElement("div");
     temponDivMainToDivMain.id = "DivMainToDivMain";
-    temponDivMainToDivMain.className = "";
+    temponDivMainToDivMain.className = "a remplir";
 
     const containerTitleDivMainContent = document.createElement("div");
     containerTitleDivMainContent.id = "TitleDivMainContent";
@@ -126,36 +133,45 @@ function structureMain() {
 }
 
 function mainAccueil() {
-
-
     // Modifie le titre dans le main
     document.getElementById('H2MainContent').textContent = "Bienvenue sur mon projet de Memory";
 
+    structureMainActuelle = "d-flex flex-column  justify-content-center mt-6 ms-6 me-6 mb-6 bg-light border border-dark border-2 rounded-3";
+    document.getElementById('divMainContent').className = structureMainActuelle
+
     // Création d'une div qui contiendra un span
     const containerDivMainContent = document.createElement("div");
-    containerDivMainContent.id = "spanDivMainContent";
+    containerDivMainContent.id = "mainContent";
     containerDivMainContent.className = "ps-2 mb-2";
+    document.getElementById('ContentDivMainContent').appendChild(containerDivMainContent);
 
+    //Création d'un span
     const createSpanMainContent = document.createElement('span');
     createSpanMainContent.textContent = 'Venez jouer avec nous et faites le meilleur score possible';
+    containerDivMainContent.appendChild(createSpanMainContent);
 
     // Création d'une liste de règles
     const containerDivListeRegles = document.createElement('div');
     containerDivListeRegles.id = "divListeRegles";
     containerDivListeRegles.className = "ps-2 mb-2 mt-2";
+    containerDivMainContent.appendChild(containerDivListeRegles);
 
-    const createListeRegles = document.createElement('ul');
-    createListeRegles.id = "listeRegles";
-    createListeRegles.className = "a remplir";
-
-    // Création du titre de la liste (HEAD n'est pas approprié ici)
     const createTitreListeRegles = document.createElement('h3');  // Changé de 'head' à 'h3'
     createTitreListeRegles.id = "titreListeRegles";
     createTitreListeRegles.className = "a remplir";
     createTitreListeRegles.textContent = 'Règles du jeu :';
+    containerDivListeRegles.appendChild(createTitreListeRegles);
+
+    const createListeRegles = document.createElement('ul');
+    createListeRegles.id = "listeRegles";
+    createListeRegles.className = "a remplir";
+    containerDivListeRegles.appendChild(createListeRegles);
+
+    // Création du titre de la liste (HEAD n'est pas approprié ici)
+
 
     // Ajout du titre avant la liste
-    containerDivListeRegles.appendChild(createTitreListeRegles);
+
 
     // Création des éléments de liste
     const regles = [
@@ -164,6 +180,7 @@ function mainAccueil() {
         "La partie est terminée lorsque toutes les cartes ont été assemblées par paires"
     ];
 
+    //Création de la liste en fonction du tableau précédent
     for (let index = 0; index < regles.length; index++) {
         const createListes = document.createElement('li');
         createListes.id = `liste${index}`;
@@ -172,41 +189,37 @@ function mainAccueil() {
         createListeRegles.appendChild(createListes);
     }
 
+    //Création de la zone image
     const containerDivImageExempleMain = document.createElement('div');
     containerDivImageExempleMain.id = "DivImageExempleMain";
     containerDivImageExempleMain.className = "d-flex justify-content-center mt-3 mb-3";
+    containerDivMainContent.appendChild(containerDivImageExempleMain);
+
     const createImageExempleMain = document.createElement('img')
     createImageExempleMain.id = 'ImageExempleMain'
     createImageExempleMain.className = 'img-fluid img-thumbnail imgExemple'
     createImageExempleMain.src = 'images/memory_exemple.jpg'
+    containerDivImageExempleMain.appendChild(createImageExempleMain)
 
     const containerDivSpanEndMain = document.createElement('div');
     containerDivSpanEndMain.id = "DivSpanEndMain";
     containerDivSpanEndMain.className = "d-flex flex-column";
+    containerDivMainContent.appendChild(containerDivSpanEndMain);
 
     const createSpanMainContent1 = document.createElement('span');
     createSpanMainContent1.id = 'spanMainContent1'
     createSpanMainContent1.textContent = 'Si vous voulez vous souvenir de votre score. Inscrivez-vous via le formulaire.';
+    containerDivSpanEndMain.appendChild(createSpanMainContent1);
 
     const createSpanMainContent2 = document.createElement('span');
     createSpanMainContent2.id = 'spanMainContent2'
     createSpanMainContent2.textContent = 'Le jeu garde les 5 meilleurs scores.';
+    containerDivSpanEndMain.appendChild(createSpanMainContent2);
 
     const createSpanMainContent3 = document.createElement('span');
     createSpanMainContent3.id = 'spanMainContent3'
     createSpanMainContent3.textContent = 'Si vous voulez relancer une partie cliquez sur la barre espace .';
-
-    containerDivImageExempleMain.appendChild(createImageExempleMain)
-    containerDivListeRegles.appendChild(createListeRegles);
-    containerDivMainContent.appendChild(createSpanMainContent);
-    containerDivMainContent.appendChild(containerDivListeRegles);
-    containerDivMainContent.appendChild(containerDivImageExempleMain);
-    containerDivMainContent.appendChild(containerDivSpanEndMain);
-    containerDivSpanEndMain.appendChild(createSpanMainContent1);
-    containerDivSpanEndMain.appendChild(createSpanMainContent2);
     containerDivSpanEndMain.appendChild(createSpanMainContent3);
-
-    document.getElementById('ContentDivMainContent').appendChild(containerDivMainContent);
 
     const replaceSpanMainContent2 = document.getElementById('spanMainContent2')
     replaceSpanMainContent2.innerHTML = replaceSpanMainContent2.innerHTML.replace(
@@ -222,6 +235,8 @@ function mainAccueil() {
 }
 
 function footer() {
+
+
     const containerDivMainFooter = document.createElement("div");
     containerDivMainFooter.id = "divMainFooter";
     containerDivMainFooter.className = "d-flex justify-content-center mt-2 mb-2";
@@ -261,23 +276,23 @@ function clickOnButtonNavBar1() {
 
     // Définition de TOUS les handlers comme fonctions nommées
     function handleAccueil() {
-        document.getElementById('spanDivMainContent').remove()
+        document.getElementById('mainContent').remove()
         mainAccueil();
     }
     function handleInscription() {
-        document.getElementById('spanDivMainContent').remove()
+        document.getElementById('mainContent').remove()
         mainInscription();
     }
     function handleConnexion() {
-        document.getElementById('spanDivMainContent').remove()
+        document.getElementById('mainContent').remove()
         mainConnexion()
     }
     function handleProfil() {
-        document.getElementById('spanDivMainContent').remove()
+        document.getElementById('mainContent').remove()
         mainProfil()
     }
     function handleJouer() {
-        document.getElementById('spanDivMainContent').remove()
+        document.getElementById('mainContent').remove()
         mainJouer()
     }
 
@@ -297,390 +312,483 @@ function clickOnButtonNavBar1() {
 }
 
 function mainInscription() {
-
-
-
     // Modifie le titre dans le main
     document.getElementById('H2MainContent').textContent = "Inscrivez-vous";
 
-    // Création d'une div qui contiendra un span
-    const containerSpanDivMainContent = document.createElement("div");
-    containerSpanDivMainContent.id = "spanDivMainContent";
-    containerSpanDivMainContent.className = "ps-2 mb-2";
 
-    const createSpanMainContent = document.createElement('span');
-    createSpanMainContent.textContent = 'Venez jouer avec nous et faites le meilleur score possible';
+    structureMainActuelle = "d-flex flex-column  justify-content-center mt-7 ms-7 me-7 mb-7 bg-light border border-dark border-2 rounded-3";
+    document.getElementById('divMainContent').className = structureMainActuelle
+    document.getElementById('divMainContent').style = "--bs-bg-opacity: .5;";
 
-    // Création d'une liste de règles
-    const containerDivListeRegles = document.createElement('div');
-    containerDivListeRegles.id = "divListeRegles";
-    containerDivListeRegles.className = "ps-2 mb-2 mt-2";
+    // Création d'une div pour l'ensemble de la main
+    const containerMainContent = document.createElement("div");
+    containerMainContent.id = "mainContent";
+    containerMainContent.className = "ps-2 mb-2";
+    document.getElementById('divMainContent').appendChild(containerMainContent);
 
-    const createListeRegles = document.createElement('ul');
-    createListeRegles.id = "listeRegles";
-    createListeRegles.className = "a remplir";
+    //--------------------------ZONE UTILISATEUR-------------------------------------
 
-    // Création du titre de la liste (HEAD n'est pas approprié ici)
-    const createTitreListeRegles = document.createElement('h3');  // Changé de 'head' à 'h3'
-    createTitreListeRegles.id = "titreListeRegles";
-    createTitreListeRegles.className = "a remplir";
-    createTitreListeRegles.textContent = 'Règles du jeu :';
+    //Création d'une div pour la zone Nom d'utilisateur
+    const createDivNomUtil = document.createElement('div')
+    createDivNomUtil.id = "divNomUtil";
+    createDivNomUtil.className = " form-floating m-2 mb-3";
+    containerMainContent.appendChild(createDivNomUtil);
 
-    // Ajout du titre avant la liste
-    containerDivListeRegles.appendChild(createTitreListeRegles);
+    //Création de l'input du nom d'utilisateur
+    const createInputNomUtil = document.createElement('input')
+    createInputNomUtil.id = "inputNomUtil";
+    createInputNomUtil.className = " form-control";
+    createInputNomUtil.placeholder = "3 caractères minimum"
+    createInputNomUtil.type = "text"
+    createInputNomUtil.style.width = "94%"
 
-    // Création des éléments de liste
-    const regles = [
-        "Retourner deux cartes. Si les images sont identiques le jeu laisse les cartes visibles.",
-        "Si les images sont différentes, les cartes se retournent faces cachées là où elles étaient.",
-        "La partie est terminée lorsque toutes les cartes ont été assemblées par paires"
-    ];
 
-    for (let index = 0; index < regles.length; index++) {
-        const createListes = document.createElement('li');
-        createListes.id = `liste${index}`;
-        createListes.className = "a remplir";
-        createListes.textContent = regles[index];  // Ajout du texte directement ici
-        createListeRegles.appendChild(createListes);
-    }
+    createDivNomUtil.appendChild(createInputNomUtil);
 
-    const containerDivImageExempleMain = document.createElement('div');
-    containerDivImageExempleMain.id = "DivImageExempleMain";
-    containerDivImageExempleMain.className = "d-flex justify-content-center mt-3 mb-3";
-    const createImageExempleMain = document.createElement('img')
-    createImageExempleMain.id = 'ImageExempleMain'
-    createImageExempleMain.className = 'img-fluid img-thumbnail imgExemple'
-    createImageExempleMain.src = 'images/memory_exemple.jpg'
+    //Création du label du nom d'utilisateur
+    const createLabelNomUtil = document.createElement('label')
+    createLabelNomUtil.id = "labelNomUtil";
+    createLabelNomUtil.className = "labelSubscribe";
+    createLabelNomUtil.textContent = "Nom d'utilisateur :"
+    createLabelNomUtil.setAttribute("for", "inputNomUtil")
+    createDivNomUtil.appendChild(createLabelNomUtil);
 
-    const containerDivSpanEndMain = document.createElement('div');
-    containerDivSpanEndMain.id = "DivSpanEndMain";
-    containerDivSpanEndMain.className = "d-flex flex-column";
+    //--------------------------ZONE EMAIL-------------------------------------
 
-    const createSpanMainContent1 = document.createElement('span');
-    createSpanMainContent1.id = 'spanMainContent1'
-    createSpanMainContent1.textContent = 'Si vous voulez vous souvenir de votre score. Inscrivez-vous via le formulaire.';
+    //Création d'une div pour la zone email
+    const createDivEmailUtil = document.createElement('div')
+    createDivEmailUtil.id = "divEmailUtil";
+    createDivEmailUtil.className = "form-floating m-2 mb-3";
+    containerMainContent.appendChild(createDivEmailUtil);
 
-    const createSpanMainContent2 = document.createElement('span');
-    createSpanMainContent2.id = 'spanMainContent2'
-    createSpanMainContent2.textContent = 'Le jeu garde les 5 meilleurs scores.';
+    //Création de l'input de l'email
+    const createInputEmailUtil = document.createElement('input')
+    createInputEmailUtil.id = "inputEmailUtil";
+    createInputEmailUtil.className = "form-control ";
+    createInputEmailUtil.placeholder = "votre email"
+    createInputEmailUtil.type = "email"
+    createInputEmailUtil.style.width = "94%"
+    createDivEmailUtil.appendChild(createInputEmailUtil);
 
-    const createSpanMainContent3 = document.createElement('span');
-    createSpanMainContent3.id = 'spanMainContent3'
-    createSpanMainContent3.textContent = 'Si vous voulez relancer une partie cliquez sur la barre espace .';
+    //Création du label de l'email
+    const createLabelEmailUtil = document.createElement('label')
+    createLabelEmailUtil.id = "labelEmailUtil";
+    createLabelEmailUtil.className = "labelSubscribe";
+    createLabelEmailUtil.textContent = "Entrez votre email :"
+    createLabelEmailUtil.setAttribute('for', 'inputEmailUtil')
+    createDivEmailUtil.appendChild(createLabelEmailUtil);
 
-    containerDivImageExempleMain.appendChild(createImageExempleMain)
-    containerDivListeRegles.appendChild(createListeRegles);
-    containerSpanDivMainContent.appendChild(createSpanMainContent);
-    containerSpanDivMainContent.appendChild(containerDivListeRegles);
-    containerSpanDivMainContent.appendChild(containerDivImageExempleMain);
-    containerSpanDivMainContent.appendChild(containerDivSpanEndMain);
-    containerDivSpanEndMain.appendChild(createSpanMainContent1);
-    containerDivSpanEndMain.appendChild(createSpanMainContent2);
-    containerDivSpanEndMain.appendChild(createSpanMainContent3);
+    //--------------------------ZONE PASSWORD-------------------------------------
 
-    document.getElementById('divMainContent').appendChild(containerSpanDivMainContent);
+    //Création d'une div pour la zone password
+    const createDivPwdUtil = document.createElement('div')
+    createDivPwdUtil.id = "divPwdUtil";
+    createDivPwdUtil.className = "form-floating m-2 mb-3";
+    containerMainContent.appendChild(createDivPwdUtil);
 
-    const replaceSpanMainContent2 = document.getElementById('spanMainContent2')
-    replaceSpanMainContent2.innerHTML = replaceSpanMainContent2.innerHTML.replace(
-        '5 meilleurs',
-        '<strong>5 meilleurs</strong>'
-    )
+    //Création de l'input du password
+    const createInputPwdUtil = document.createElement('input')
+    createInputPwdUtil.id = "inputPwdUtil";
+    createInputPwdUtil.className = "form-control ";
+    createInputPwdUtil.placeholder = "votre mot de passe"
+    createInputPwdUtil.type = "password"
+    createInputPwdUtil.style.width = "94%"
+    createDivPwdUtil.appendChild(createInputPwdUtil);
 
-    const replaceSpanMainContent3 = document.getElementById('spanMainContent3')
-    replaceSpanMainContent3.innerHTML = replaceSpanMainContent3.innerHTML.replace(
-        'la barre espace',
-        '<strong>la barre espace</strong>'
-    )
+    //Création du label du password
+    const createLabelPwdUtil = document.createElement('label')
+    createLabelPwdUtil.id = "labelPwdUtil";
+    createLabelPwdUtil.className = "labelSubscribe";
+    createLabelPwdUtil.textContent = "Mot de passe :"
+    createLabelPwdUtil.setAttribute('for', 'inputPwdUtil')
+    createDivPwdUtil.appendChild(createLabelPwdUtil);
+
+    //Création de la div qui contiendra la jauge de fortification
+    const createDivJaugePwdUtil = document.createElement('div')
+    createDivJaugePwdUtil.id = "divJaugePwdUtil";
+    createDivJaugePwdUtil.className = "d-flex justify-content-center";
+    createDivPwdUtil.appendChild(createDivJaugePwdUtil);
+
+    //Création de la div qui contiendra la jauge faible de fortification
+    const createDivJaugeFaiblePwdUtil = document.createElement('div')
+    createDivJaugeFaiblePwdUtil.id = "divJaugeFaiblePwdUtil";
+    createDivJaugeFaiblePwdUtil.className = "ms-1 me-1 d-none";
+    createDivJaugePwdUtil.appendChild(createDivJaugeFaiblePwdUtil);
+
+    //Création du label faible
+    const createJaugeFaiblePwdUtil = document.createElement('label')
+    createJaugeFaiblePwdUtil.id = "jaugeFaiblePwdUtil";
+    createJaugeFaiblePwdUtil.className = "";
+    createJaugeFaiblePwdUtil.textContent = "FAIBLE"
+    createDivJaugeFaiblePwdUtil.appendChild(createJaugeFaiblePwdUtil);
+
+    //Création de la div qui contiendra la jauge moyen de fortification
+    const createDivJaugeMoyenPwdUtil = document.createElement('div')
+    createDivJaugeMoyenPwdUtil.id = "divJaugeMoyenPwdUtil";
+    createDivJaugeMoyenPwdUtil.className = "ms-1 me-1 d-none";
+    createDivJaugePwdUtil.appendChild(createDivJaugeMoyenPwdUtil);
+
+    //Création du label moyen
+    const createJaugeMoyenPwdUtil = document.createElement('label')
+    createJaugeMoyenPwdUtil.id = "jaugeMoyenPwdUtil";
+    createJaugeMoyenPwdUtil.className = "a remplir";
+    createJaugeMoyenPwdUtil.textContent = "MOYEN"
+    createDivJaugeMoyenPwdUtil.appendChild(createJaugeMoyenPwdUtil);
+
+    //Création de la div qui contiendra la jauge fort de fortification
+    const createDivJaugeFortPwdUtil = document.createElement('div')
+    createDivJaugeFortPwdUtil.id = "divJaugeFortPwdUtil";
+    createDivJaugeFortPwdUtil.className = "ms-1 me-1 d-none";
+    createDivJaugePwdUtil.appendChild(createDivJaugeFortPwdUtil);
+
+    //Création du label fort
+    const createJaugeFortPwdUtil = document.createElement('label')
+    createJaugeFortPwdUtil.id = "jaugeFortPwdUtil";
+    createJaugeFortPwdUtil.className = "a remplir";
+    createJaugeFortPwdUtil.textContent = "FORT"
+    createDivJaugeFortPwdUtil.appendChild(createJaugeFortPwdUtil);
+
+
+    //--------------------------ZONE VERIF PASSWORD-------------------------------------
+
+    //Création d'une div pour la zone de verification du password
+    const createDivVerifPwdUtil = document.createElement('div')
+    createDivVerifPwdUtil.id = "divVerifPwdUtil";
+    createDivVerifPwdUtil.className = "form-floating m-2 mb-3";
+    containerMainContent.appendChild(createDivVerifPwdUtil);
+
+    //Création de l'input de l'email
+    const createInputVerifPwdUtil = document.createElement('input')
+    createInputVerifPwdUtil.id = "inputVerifPwdUtil";
+    createInputVerifPwdUtil.className = "form-control";
+    createInputVerifPwdUtil.placeholder = "confirmez le mot de passe"
+    createInputVerifPwdUtil.type = "password"
+    createInputVerifPwdUtil.style.width = "94%"
+    createDivVerifPwdUtil.appendChild(createInputVerifPwdUtil);
+
+    //Création du label de verification du password
+    const createLabelVerifPwdUtil = document.createElement('label')
+    createLabelVerifPwdUtil.id = "labelVerifPwdUtil";
+    createLabelVerifPwdUtil.className = " labelSubscribe";
+    createLabelVerifPwdUtil.textContent = "Confirmez le mot de passe :"
+    createLabelVerifPwdUtil.setAttribute('for', 'inputVerifPwdUtil')
+    createDivVerifPwdUtil.appendChild(createLabelVerifPwdUtil);
+
+    //--------------------------ZONE BOUTONS-------------------------------------
+
+    //Création d'une div pour la zone des boutons
+    const createDivBtnUtil = document.createElement('div')
+    createDivBtnUtil.id = "divBtnUtil";
+    createDivBtnUtil.className = "d-flex justify-content-around";
+    containerMainContent.appendChild(createDivBtnUtil);
+
+    //Création du bouton de creation du compte
+    const createBtnCreaUtil = document.createElement('button')
+    createBtnCreaUtil.id = "btnCreaUtil";
+    createBtnCreaUtil.className = "btn btn-secondary border border-dark rounded-pill ps-4 pe-4";
+    createBtnCreaUtil.textContent = "Création du compte";
+    createDivBtnUtil.appendChild(createBtnCreaUtil);
+
+    //Création du bouton de reset
+    const createBtnResetUtil = document.createElement('button')
+    createBtnResetUtil.id = "btnResetUtil";
+    createBtnResetUtil.className = "btn btn-secondary border border-dark rounded-pill ps-4 pe-4";
+    createBtnResetUtil.textContent = "Reset";
+    createDivBtnUtil.appendChild(createBtnResetUtil);
+
+
 
 }
 
-function mainConnexion(){
-
-
-
+function mainConnexion() {
     // Modifie le titre dans le main
     document.getElementById('H2MainContent').textContent = "Connectez-vous";
 
-    // Création d'une div qui contiendra un span
-    const containerSpanDivMainContent = document.createElement("div");
-    containerSpanDivMainContent.id = "spanDivMainContent";
-    containerSpanDivMainContent.className = "ps-2 mb-2";
+    structureMainActuelle = "d-flex flex-column  justify-content-center mt-7 ms-7 me-7 mb-7 bg-light border border-dark border-2 rounded-3 divMainContentConnexion";
+    document.getElementById('divMainContent').className = structureMainActuelle
+    document.getElementById('divMainContent').style = "--bs-bg-opacity: .5;";
 
-    const createSpanMainContent = document.createElement('span');
-    createSpanMainContent.textContent = 'Venez jouer avec nous et faites le meilleur score possible';
 
-    // Création d'une liste de règles
-    const containerDivListeRegles = document.createElement('div');
-    containerDivListeRegles.id = "divListeRegles";
-    containerDivListeRegles.className = "ps-2 mb-2 mt-2";
+    // Création d'une div pour l'ensemble de la main
+    const containerMainContent = document.createElement("div");
+    containerMainContent.id = "mainContent";
+    containerMainContent.className = "ps-2 mb-2";
+    document.getElementById('divMainContent').appendChild(containerMainContent);
 
-    const createListeRegles = document.createElement('ul');
-    createListeRegles.id = "listeRegles";
-    createListeRegles.className = "a remplir";
+    //--------------------------ZONE EMAIL-------------------------------------
 
-    // Création du titre de la liste (HEAD n'est pas approprié ici)
-    const createTitreListeRegles = document.createElement('h3');  // Changé de 'head' à 'h3'
-    createTitreListeRegles.id = "titreListeRegles";
-    createTitreListeRegles.className = "a remplir";
-    createTitreListeRegles.textContent = 'Règles du jeu :';
+    //Création d'une div pour la zone email
+    const createDivEmailConnexion = document.createElement('div')
+    createDivEmailConnexion.id = "divEmailConnexion";
+    createDivEmailConnexion.className = "form-floating mb-3";
+    containerMainContent.appendChild(createDivEmailConnexion);
 
-    // Ajout du titre avant la liste
-    containerDivListeRegles.appendChild(createTitreListeRegles);
+    //Création de l'input de l'email
+    const createInputEmailConnexion = document.createElement('input')
+    createInputEmailConnexion.id = "inputEmailConnexion";
+    createInputEmailConnexion.className = "form-control";
+    createInputEmailConnexion.placeholder = "votre email"
+    createInputEmailConnexion.type = "email"
+    createInputEmailConnexion.style.width = "94%"
+    createDivEmailConnexion.appendChild(createInputEmailConnexion);
 
-    // Création des éléments de liste
-    const regles = [
-        "Retourner deux cartes. Si les images sont identiques le jeu laisse les cartes visibles.",
-        "Si les images sont différentes, les cartes se retournent faces cachées là où elles étaient.",
-        "La partie est terminée lorsque toutes les cartes ont été assemblées par paires"
-    ];
+    //Création du label de l'email
+    const createLabelEmailConnexion = document.createElement('label')
+    createLabelEmailConnexion.id = "labelEmailConnexion";
+    createLabelEmailConnexion.className = "a remplir";
+    createLabelEmailConnexion.textContent = "Email : (Exemple : john@doe.fr)"
+    createLabelEmailConnexion.setAttribute("for", "inputEmailConnexion")
+    createDivEmailConnexion.appendChild(createLabelEmailConnexion);
 
-    for (let index = 0; index < regles.length; index++) {
-        const createListes = document.createElement('li');
-        createListes.id = `liste${index}`;
-        createListes.className = "a remplir";
-        createListes.textContent = regles[index];  // Ajout du texte directement ici
-        createListeRegles.appendChild(createListes);
-    }
+    //--------------------------ZONE PASSWORD-------------------------------------
 
-    const containerDivImageExempleMain = document.createElement('div');
-    containerDivImageExempleMain.id = "DivImageExempleMain";
-    containerDivImageExempleMain.className = "d-flex justify-content-center mt-3 mb-3";
-    const createImageExempleMain = document.createElement('img')
-    createImageExempleMain.id = 'ImageExempleMain'
-    createImageExempleMain.className = 'img-fluid img-thumbnail imgExemple'
-    createImageExempleMain.src = 'images/memory_exemple.jpg'
+    //Création d'une div pour la zone email
+    const createDivPwdConnexion = document.createElement('div')
+    createDivPwdConnexion.id = "divPwdConnexion";
+    createDivPwdConnexion.className = "form-floating mb-3";
+    containerMainContent.appendChild(createDivPwdConnexion);
 
-    const containerDivSpanEndMain = document.createElement('div');
-    containerDivSpanEndMain.id = "DivSpanEndMain";
-    containerDivSpanEndMain.className = "d-flex flex-column";
+    //Création de l'input de l'email
+    const createInputPwdConnexion = document.createElement('input')
+    createInputPwdConnexion.id = "inputPwdConnexion";
+    createInputPwdConnexion.className = "form-control";
+    createInputPwdConnexion.placeholder = "votre email"
+    createInputPwdConnexion.type = "email"
+    createInputPwdConnexion.style.width = "94%"
+    createDivPwdConnexion.appendChild(createInputPwdConnexion);
 
-    const createSpanMainContent1 = document.createElement('span');
-    createSpanMainContent1.id = 'spanMainContent1'
-    createSpanMainContent1.textContent = 'Si vous voulez vous souvenir de votre score. Inscrivez-vous via le formulaire.';
+    //Création du label de l'email
+    const createLabelPwdConnexion = document.createElement('label')
+    createLabelPwdConnexion.id = "labelPwdConnexion";
+    createLabelPwdConnexion.className = "a remplir";
+    createLabelPwdConnexion.textContent = "Entrez votre mot de passe :"
+    createLabelPwdConnexion.setAttribute("for", "inputPwdConnexion")
+    createDivPwdConnexion.appendChild(createLabelPwdConnexion);
 
-    const createSpanMainContent2 = document.createElement('span');
-    createSpanMainContent2.id = 'spanMainContent2'
-    createSpanMainContent2.textContent = 'Le jeu garde les 5 meilleurs scores.';
+    //--------------------------ZONE BOUTONS-------------------------------------
 
-    const createSpanMainContent3 = document.createElement('span');
-    createSpanMainContent3.id = 'spanMainContent3'
-    createSpanMainContent3.textContent = 'Si vous voulez relancer une partie cliquez sur la barre espace .';
+    //Création d'une div pour la zone des boutons
+    const createDivBtnConnexion = document.createElement('div')
+    createDivBtnConnexion.id = "divBtnConnexion";
+    createDivBtnConnexion.className = "d-flex justify-content-around";
+    containerMainContent.appendChild(createDivBtnConnexion);
 
-    containerDivImageExempleMain.appendChild(createImageExempleMain)
-    containerDivListeRegles.appendChild(createListeRegles);
-    containerSpanDivMainContent.appendChild(createSpanMainContent);
-    containerSpanDivMainContent.appendChild(containerDivListeRegles);
-    containerSpanDivMainContent.appendChild(containerDivImageExempleMain);
-    containerSpanDivMainContent.appendChild(containerDivSpanEndMain);
-    containerDivSpanEndMain.appendChild(createSpanMainContent1);
-    containerDivSpanEndMain.appendChild(createSpanMainContent2);
-    containerDivSpanEndMain.appendChild(createSpanMainContent3);
+    //Création du bouton de creation du compte
+    const createBtnCreaConnexion = document.createElement('button')
+    createBtnCreaConnexion.id = "btnCreaConnexion";
+    createBtnCreaConnexion.className = "btn btn-secondary border border-dark rounded-pill ps-4 pe-4 BtnConnexion";
+    createBtnCreaConnexion.textContent = "Création du compte";
+    createDivBtnConnexion.appendChild(createBtnCreaConnexion);
 
-    document.getElementById('divMainContent').appendChild(containerSpanDivMainContent);
+    //Création du bouton de reset
+    const createBtnResetConnexion = document.createElement('button')
+    createBtnResetConnexion.id = "btnResetConnexion";
+    createBtnResetConnexion.className = "btn btn-secondary border border-dark rounded-pill ps-4 pe-4 BtnConnexion";
+    createBtnResetConnexion.textContent = "Reset";
+    createDivBtnConnexion.appendChild(createBtnResetConnexion);
 
-    const replaceSpanMainContent2 = document.getElementById('spanMainContent2')
-    replaceSpanMainContent2.innerHTML = replaceSpanMainContent2.innerHTML.replace(
-        '5 meilleurs',
-        '<strong>5 meilleurs</strong>'
-    )
-
-    const replaceSpanMainContent3 = document.getElementById('spanMainContent3')
-    replaceSpanMainContent3.innerHTML = replaceSpanMainContent3.innerHTML.replace(
-        'la barre espace',
-        '<strong>la barre espace</strong>'
-    )
 }
 
 function mainProfil() {
-    
-
-
     // Modifie le titre dans le main
     document.getElementById('H2MainContent').textContent = "Votre profil";
 
-    // Création d'une div qui contiendra un span
-    const containerSpanDivMainContent = document.createElement("div");
-    containerSpanDivMainContent.id = "spanDivMainContent";
-    containerSpanDivMainContent.className = "ps-2 mb-2";
+    structureMainActuelle = "d-flex flex-column  justify-content-center mt-7 ms-7 me-7 mb-7 bg-light border border-dark border-2 rounded-3 divMainContentConnexion";
+    document.getElementById('divMainContent').className = structureMainActuelle
+    document.getElementById('divMainContent').style = "--bs-bg-opacity: .5;";
 
-    const createSpanMainContent = document.createElement('span');
-    createSpanMainContent.textContent = 'Venez jouer avec nous et faites le meilleur score possible';
 
-    // Création d'une liste de règles
-    const containerDivListeRegles = document.createElement('div');
-    containerDivListeRegles.id = "divListeRegles";
-    containerDivListeRegles.className = "ps-2 mb-2 mt-2";
+    // Création d'une div pour l'ensemble de la main
+    const containerMainContent = document.createElement("div");
+    containerMainContent.id = "mainContent";
+    containerMainContent.className = "ps-2 mb-2";
+    document.getElementById('divMainContent').appendChild(containerMainContent);
 
-    const createListeRegles = document.createElement('ul');
-    createListeRegles.id = "listeRegles";
-    createListeRegles.className = "a remplir";
+    //Création de la div contenant l'image du profil
+    const containerDivImageProfil = document.createElement('div');
+    containerDivImageProfil.id = "divImageProfil";
+    containerDivImageProfil.className = "d-flex justify-content-center mt-3 mb-4";
+    containerMainContent.appendChild(containerDivImageProfil);
 
-    // Création du titre de la liste (HEAD n'est pas approprié ici)
-    const createTitreListeRegles = document.createElement('h3');  // Changé de 'head' à 'h3'
-    createTitreListeRegles.id = "titreListeRegles";
-    createTitreListeRegles.className = "a remplir";
-    createTitreListeRegles.textContent = 'Règles du jeu :';
+    //Création de de l'image du profil
+    const containerImageProfil = document.createElement('img')
+    containerImageProfil.id = 'imageProfil'
+    containerImageProfil.className = 'img-fluid img-thumbnail imgAvatar'
+    containerImageProfil.src = 'images/avatar/avatar-steve.webp'
+    containerDivImageProfil.appendChild(containerImageProfil)
 
-    // Ajout du titre avant la liste
-    containerDivListeRegles.appendChild(createTitreListeRegles);
 
-    // Création des éléments de liste
-    const regles = [
-        "Retourner deux cartes. Si les images sont identiques le jeu laisse les cartes visibles.",
-        "Si les images sont différentes, les cartes se retournent faces cachées là où elles étaient.",
-        "La partie est terminée lorsque toutes les cartes ont été assemblées par paires"
-    ];
+    //--------------------------ZONE NOM UTIL-------------------------------------
 
-    for (let index = 0; index < regles.length; index++) {
-        const createListes = document.createElement('li');
-        createListes.id = `liste${index}`;
-        createListes.className = "a remplir";
-        createListes.textContent = regles[index];  // Ajout du texte directement ici
-        createListeRegles.appendChild(createListes);
-    }
+    //Création d'une div pour la zone Nom utilisateur
+    const createDivNameProfil = document.createElement('div')
+    createDivNameProfil.id = "divNameProfil";
+    createDivNameProfil.className = "mb-3";
+    containerMainContent.appendChild(createDivNameProfil);
 
-    const containerDivImageExempleMain = document.createElement('div');
-    containerDivImageExempleMain.id = "DivImageExempleMain";
-    containerDivImageExempleMain.className = "d-flex justify-content-center mt-3 mb-3";
-    const createImageExempleMain = document.createElement('img')
-    createImageExempleMain.id = 'ImageExempleMain'
-    createImageExempleMain.className = 'img-fluid img-thumbnail imgExemple'
-    createImageExempleMain.src = 'images/memory_exemple.jpg'
+    //Création du label de l'email
+    const createLabelNameProfil = document.createElement('label')
+    createLabelNameProfil.id = "labelNameProfil";
+    createLabelNameProfil.className = "a remplir";
+    createLabelNameProfil.textContent = "Nom d'utilisateur :"
+    createLabelNameProfil.setAttribute("for", "inputNameProfil")
+    createDivNameProfil.appendChild(createLabelNameProfil);
 
-    const containerDivSpanEndMain = document.createElement('div');
-    containerDivSpanEndMain.id = "DivSpanEndMain";
-    containerDivSpanEndMain.className = "d-flex flex-column";
+    //Création de l'input de l'email
+    const createInputNameProfil = document.createElement('input')
+    createInputNameProfil.id = "inputNameProfil";
+    createInputNameProfil.className = "inputSaisie";
+    createInputNameProfil.placeholder = "votre nom d'utilisateur"
+    createInputNameProfil.type = "email"
+    createInputNameProfil.style.width = "94%"
+    createInputNameProfil.readOnly = true
+    createInputNameProfil.textContent = 'Toto'
 
-    const createSpanMainContent1 = document.createElement('span');
-    createSpanMainContent1.id = 'spanMainContent1'
-    createSpanMainContent1.textContent = 'Si vous voulez vous souvenir de votre score. Inscrivez-vous via le formulaire.';
+    createDivNameProfil.appendChild(createInputNameProfil);
 
-    const createSpanMainContent2 = document.createElement('span');
-    createSpanMainContent2.id = 'spanMainContent2'
-    createSpanMainContent2.textContent = 'Le jeu garde les 5 meilleurs scores.';
 
-    const createSpanMainContent3 = document.createElement('span');
-    createSpanMainContent3.id = 'spanMainContent3'
-    createSpanMainContent3.textContent = 'Si vous voulez relancer une partie cliquez sur la barre espace .';
 
-    containerDivImageExempleMain.appendChild(createImageExempleMain)
-    containerDivListeRegles.appendChild(createListeRegles);
-    containerSpanDivMainContent.appendChild(createSpanMainContent);
-    containerSpanDivMainContent.appendChild(containerDivListeRegles);
-    containerSpanDivMainContent.appendChild(containerDivImageExempleMain);
-    containerSpanDivMainContent.appendChild(containerDivSpanEndMain);
-    containerDivSpanEndMain.appendChild(createSpanMainContent1);
-    containerDivSpanEndMain.appendChild(createSpanMainContent2);
-    containerDivSpanEndMain.appendChild(createSpanMainContent3);
+    //--------------------------ZONE EMAIL-------------------------------------
 
-    document.getElementById('divMainContent').appendChild(containerSpanDivMainContent);
+    //Création d'une div pour la zone email
+    const createDivEmailProfil = document.createElement('div')
+    createDivEmailProfil.id = "divEmailProfil";
+    createDivEmailProfil.className = "mb-3";
+    containerMainContent.appendChild(createDivEmailProfil);
 
-    const replaceSpanMainContent2 = document.getElementById('spanMainContent2')
-    replaceSpanMainContent2.innerHTML = replaceSpanMainContent2.innerHTML.replace(
-        '5 meilleurs',
-        '<strong>5 meilleurs</strong>'
-    )
+    //Création du label de l'email
+    const createLabelEmailProfil = document.createElement('label')
+    createLabelEmailProfil.id = "labelEmailProfil";
+    createLabelEmailProfil.className = "a remplir";
+    createLabelEmailProfil.textContent = "Votre email :"
+    createLabelEmailProfil.setAttribute("for", "inputEmailProfil")
+    createDivEmailProfil.appendChild(createLabelEmailProfil);
 
-    const replaceSpanMainContent3 = document.getElementById('spanMainContent3')
-    replaceSpanMainContent3.innerHTML = replaceSpanMainContent3.innerHTML.replace(
-        'la barre espace',
-        '<strong>la barre espace</strong>'
-    )
+    //Création de l'input de l'email
+    const createInputEmailProfil = document.createElement('input')
+    createInputEmailProfil.id = "inputEmailProfil";
+    createInputEmailProfil.className = "inputSaisie";
+    createInputEmailProfil.placeholder = "votre email"
+    createInputEmailProfil.type = "text"
+    createInputEmailProfil.style.width = "94%"
+    createInputEmailProfil.readOnly = true
+    createInputEmailProfil.textContent = 'Toto'
+    createDivEmailProfil.appendChild(createInputEmailProfil);
+
+    //--------------------------ZONE SELECT TYPE--------------------------------
+
+    //Création de la zone de sélection du jeu
+    const createDivSelectTypeJeu = document.createElement('div')
+    createDivSelectTypeJeu.id = "divSelectTypeJeu";
+    createDivSelectTypeJeu.className = "mb-3";
+    containerMainContent.appendChild(createDivSelectTypeJeu);
+
+    //Création du label du choix du type de jeu
+    const createLabelSelectTypeJeu = document.createElement('label')
+    createLabelSelectTypeJeu.id = "labelSelectTypeJeu";
+    createLabelSelectTypeJeu.className = "a remplir";
+    createLabelSelectTypeJeu.textContent = "Choix du memory :"
+    createDivSelectTypeJeu.appendChild(createLabelSelectTypeJeu);
+
+    const createSelectTypeJeu = document.createElement('select')
+    createSelectTypeJeu.id = "selectTypeJeu";
+    createSelectTypeJeu.className = "text-lowercase text-capitalize";
+    createDivSelectTypeJeu.appendChild(createSelectTypeJeu);
+
+    const optionsTypeJeu = ['exemple', 'dinosaure', 'chiens']
+
+    optionsTypeJeu.forEach(element => {
+        const optionTypeJeu = document.createElement('option');
+        optionTypeJeu.value = element
+        optionTypeJeu.id = element
+        optionTypeJeu.className = "optionTypeJeu"
+        optionTypeJeu.textContent = element
+        createSelectTypeJeu.appendChild(optionTypeJeu)
+    });
+    //--------------------------ZONE IMAGE-------------------------------------
+    //Création de la div contenant l'image representant le type de jeu
+    const containerDivImageProfilTypeJeu = document.createElement('div');
+    containerDivImageProfilTypeJeu.id = "divImageProfilTypeJeu";
+    containerDivImageProfilTypeJeu.className = "d-flex justify-content-center mt-3 mb-4";
+    containerMainContent.appendChild(containerDivImageProfilTypeJeu);
+
+    //Création de de l'image representant le type de jeu
+    const containerImageProfilTypeJeu = document.createElement('img')
+    containerImageProfilTypeJeu.id = 'imageProfilTypeJeu'
+    containerImageProfilTypeJeu.className = 'img-fluid img-thumbnail imgTypeJeu'
+    containerImageProfilTypeJeu.src = 'images/memory_exemple.jpg'
+    containerDivImageProfilTypeJeu.appendChild(containerImageProfilTypeJeu)
+
+    //--------------------------ZONE SELECT TAILLE------------------------------
+
+    //Création de la zone de sélection du jeu
+    const createDivSelectTailleJeu = document.createElement('div')
+    createDivSelectTailleJeu.id = "divSelectTailleJeu";
+    createDivSelectTailleJeu.className = "mb-3";
+    containerMainContent.appendChild(createDivSelectTailleJeu);
+
+    //Création du label du choix du type de jeu
+    const createLabelSelectTailleJeu = document.createElement('label')
+    createLabelSelectTailleJeu.id = "labelSelectTailleJeu";
+    createLabelSelectTailleJeu.className = "a remplir";
+    createLabelSelectTailleJeu.textContent = "Choix du memory :"
+    createDivSelectTailleJeu.appendChild(createLabelSelectTailleJeu);
+
+    const createSelectTailleJeu = document.createElement('select')
+    createSelectTailleJeu.id = "selectTailleJeu";
+    createSelectTailleJeu.className = "text-lowercase text-capitalize";
+    createDivSelectTailleJeu.appendChild(createSelectTailleJeu);
+
+    const optionsTailleJeu = ['3*2', '3*4', '4*4']
+
+    optionsTailleJeu.forEach(element => {
+        const optionTailleJeu = document.createElement('option');
+        optionTailleJeu.value = element
+        optionTailleJeu.id = element
+        optionTailleJeu.className = "optionTailleJeu"
+        optionTailleJeu.textContent = element
+        createSelectTailleJeu.appendChild(optionTailleJeu)
+    });
+
+    //--------------------------ZONE BOUTON------------------------------
+
+    //Création de la zone de sélection du jeu
+    const createDivButtonProfil = document.createElement('div')
+    createDivButtonProfil.id = "divButtonProfil";
+    createDivButtonProfil.className = "d-flex justify-content-around mb-3";
+    containerMainContent.appendChild(createDivButtonProfil);
+
+    //Création du bouton de selection du jeu
+    const createButtonProfil = document.createElement('button')
+    createButtonProfil.id = "buttonProfil";
+    createButtonProfil.className = "btn btn-secondary border border-dark rounded-pill ps-4 pe-4 BtnConnexion";
+    createButtonProfil.textContent = "Enregistrer options";
+    createDivButtonProfil.appendChild(createButtonProfil);
+
+    //Création du bouton de reset
+    const createButtonResetProfil = document.createElement('button')
+    createButtonResetProfil.id = "buttonResetProfil";
+    createButtonResetProfil.className = "btn btn-secondary border border-dark rounded-pill ps-4 pe-4 BtnConnexion";
+    createButtonResetProfil.textContent = "Reset";
+    createDivButtonProfil.appendChild(createButtonResetProfil);
+
+    //--------------------------ZONE RESULTATS JOUEUR------------------------------
+
+    //Création de la zone des résultat du joueur
+    const createDivScoresProfil = document.createElement('div')
+    createDivScoresProfil.id = "divScoresProfil";
+    createDivScoresProfil.className = "d-flex justify-content-around mb-3";
+    containerMainContent.appendChild(createDivScoresProfil);
+
 }
 
 function mainJouer() {
-    
-
-
     // Modifie le titre dans le main
     document.getElementById('H2MainContent').textContent = "Jouer";
 
-    // Création d'une div qui contiendra un span
-    const containerSpanDivMainContent = document.createElement("div");
-    containerSpanDivMainContent.id = "spanDivMainContent";
-    containerSpanDivMainContent.className = "ps-2 mb-2";
-
-    const createSpanMainContent = document.createElement('span');
-    createSpanMainContent.textContent = 'Venez jouer avec nous et faites le meilleur score possible';
-
-    // Création d'une liste de règles
-    const containerDivListeRegles = document.createElement('div');
-    containerDivListeRegles.id = "divListeRegles";
-    containerDivListeRegles.className = "ps-2 mb-2 mt-2";
-
-    const createListeRegles = document.createElement('ul');
-    createListeRegles.id = "listeRegles";
-    createListeRegles.className = "a remplir";
-
-    // Création du titre de la liste (HEAD n'est pas approprié ici)
-    const createTitreListeRegles = document.createElement('h3');  // Changé de 'head' à 'h3'
-    createTitreListeRegles.id = "titreListeRegles";
-    createTitreListeRegles.className = "a remplir";
-    createTitreListeRegles.textContent = 'Règles du jeu :';
-
-    // Ajout du titre avant la liste
-    containerDivListeRegles.appendChild(createTitreListeRegles);
-
-    // Création des éléments de liste
-    const regles = [
-        "Retourner deux cartes. Si les images sont identiques le jeu laisse les cartes visibles.",
-        "Si les images sont différentes, les cartes se retournent faces cachées là où elles étaient.",
-        "La partie est terminée lorsque toutes les cartes ont été assemblées par paires"
-    ];
-
-    for (let index = 0; index < regles.length; index++) {
-        const createListes = document.createElement('li');
-        createListes.id = `liste${index}`;
-        createListes.className = "a remplir";
-        createListes.textContent = regles[index];  // Ajout du texte directement ici
-        createListeRegles.appendChild(createListes);
-    }
-
-    const containerDivImageExempleMain = document.createElement('div');
-    containerDivImageExempleMain.id = "DivImageExempleMain";
-    containerDivImageExempleMain.className = "d-flex justify-content-center mt-3 mb-3";
-    const createImageExempleMain = document.createElement('img')
-    createImageExempleMain.id = 'ImageExempleMain'
-    createImageExempleMain.className = 'img-fluid img-thumbnail imgExemple'
-    createImageExempleMain.src = 'images/memory_exemple.jpg'
-
-    const containerDivSpanEndMain = document.createElement('div');
-    containerDivSpanEndMain.id = "DivSpanEndMain";
-    containerDivSpanEndMain.className = "d-flex flex-column";
-
-    const createSpanMainContent1 = document.createElement('span');
-    createSpanMainContent1.id = 'spanMainContent1'
-    createSpanMainContent1.textContent = 'Si vous voulez vous souvenir de votre score. Inscrivez-vous via le formulaire.';
-
-    const createSpanMainContent2 = document.createElement('span');
-    createSpanMainContent2.id = 'spanMainContent2'
-    createSpanMainContent2.textContent = 'Le jeu garde les 5 meilleurs scores.';
-
-    const createSpanMainContent3 = document.createElement('span');
-    createSpanMainContent3.id = 'spanMainContent3'
-    createSpanMainContent3.textContent = 'Si vous voulez relancer une partie cliquez sur la barre espace .';
-
-    containerDivImageExempleMain.appendChild(createImageExempleMain)
-    containerDivListeRegles.appendChild(createListeRegles);
-    containerSpanDivMainContent.appendChild(createSpanMainContent);
-    containerSpanDivMainContent.appendChild(containerDivListeRegles);
-    containerSpanDivMainContent.appendChild(containerDivImageExempleMain);
-    containerSpanDivMainContent.appendChild(containerDivSpanEndMain);
-    containerDivSpanEndMain.appendChild(createSpanMainContent1);
-    containerDivSpanEndMain.appendChild(createSpanMainContent2);
-    containerDivSpanEndMain.appendChild(createSpanMainContent3);
-
-    document.getElementById('divMainContent').appendChild(containerSpanDivMainContent);
-
-    const replaceSpanMainContent2 = document.getElementById('spanMainContent2')
-    replaceSpanMainContent2.innerHTML = replaceSpanMainContent2.innerHTML.replace(
-        '5 meilleurs',
-        '<strong>5 meilleurs</strong>'
-    )
-
-    const replaceSpanMainContent3 = document.getElementById('spanMainContent3')
-    replaceSpanMainContent3.innerHTML = replaceSpanMainContent3.innerHTML.replace(
-        'la barre espace',
-        '<strong>la barre espace</strong>'
-    )
+    // Création d'une div pour l'ensemble de la main
+    const containerMainContent = document.createElement("div");
+    containerMainContent.id = "mainContent";
+    containerMainContent.className = "ps-2 mb-2";
+    document.getElementById('divMainContent').appendChild(containerMainContent);
 }
