@@ -27,11 +27,11 @@ body {
 }
 
 .ms-7 {
-    margin-left: 45rem !important;
+    margin-left: 40rem !important;
 }
 
 .me-7 {
-    margin-right: 45rem !important;
+    margin-right: 40rem !important;
 }
 
 .mb-7 {
@@ -83,14 +83,31 @@ input::placeholder {
     width: 75px;
 }
 
+.imgTypeJeu{
+    width: 400px;
+}
 
+#arrayScoresProfil{
+    margin: 10px;
+}
+#arrayScoresProfil td{
+    width: 15vh;
+    text-align: center;
+}
 
+#arrayMemoryJouer td{
+    width: 20vh;
+    height: 15vh;
+}
+
+#arrayScoresJouer td{
+    width: 15vh;
+    text-align: center;
+}
 /* ---------- Configuration Responsive 1500px---------- */
 
 @media screen and (max-width: 1500px) {
-    body {
-        /* Contradiction : si écran <400px, forcer le body à 400px */
-    }
+
 
     /* .divParentNavBar {
         flex-direction: column !important;
@@ -120,11 +137,13 @@ input::placeholder {
         justify-content: center !important;
     }
 
-    /* .divBtnNavBar */
+ 
 
     .divBtnNavBar {
         margin: 10px 20px 10px 20px !important;
     }
+
+
 
 
     #divMainContent{
@@ -152,6 +171,10 @@ input::placeholder {
     }
     span{
         margin: 5px;
+    }
+    #arrayMemoryJouer td{
+        width: 8vh;
+        height: 9vh;
     }
 }
 

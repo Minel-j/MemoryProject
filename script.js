@@ -3,6 +3,19 @@ let nomDePage = 'Accueil'
 window.addEventListener('load', init);
 let pageActuelle = 0
 let structureMainActuelle = "d-flex flex-column  justify-content-center mt-6 ms-6 me-6 mb-6 bg-light border border-dark border-2 rounded-3";
+const NbrCoupsPartieMemory = 0
+const yV = 5
+const xH = 4
+let scorePwd = 0
+const pwdVerif = false
+const pwdConfirm = false
+const emailVerif = false
+const nameVerif = false
+const pwdVerifBDD = ''
+const pwdConfirmBDD = ''
+const emailVerifBDD = ''
+const nameVerifBDD = ''
+
 
 function init() {
 
@@ -282,6 +295,8 @@ function clickOnButtonNavBar1() {
     function handleInscription() {
         document.getElementById('mainContent').remove()
         mainInscription();
+        verificationInscription()
+        boutonInscription()
     }
     function handleConnexion() {
         document.getElementById('mainContent').remove()
@@ -403,10 +418,12 @@ function mainInscription() {
     createLabelPwdUtil.setAttribute('for', 'inputPwdUtil')
     createDivPwdUtil.appendChild(createLabelPwdUtil);
 
+    //--------------------------ZONE JAUGE PASSWORD-------------------------------------
+
     //Création de la div qui contiendra la jauge de fortification
     const createDivJaugePwdUtil = document.createElement('div')
     createDivJaugePwdUtil.id = "divJaugePwdUtil";
-    createDivJaugePwdUtil.className = "d-flex justify-content-center";
+    createDivJaugePwdUtil.className = "d-flex justify-content-center p-1";
     createDivPwdUtil.appendChild(createDivJaugePwdUtil);
 
     //Création de la div qui contiendra la jauge faible de fortification
@@ -485,8 +502,9 @@ function mainInscription() {
     //Création du bouton de creation du compte
     const createBtnCreaUtil = document.createElement('button')
     createBtnCreaUtil.id = "btnCreaUtil";
-    createBtnCreaUtil.className = "btn btn-secondary border border-dark rounded-pill ps-4 pe-4";
+    createBtnCreaUtil.className = "btn btn-secondary border border-dark rounded-pill ps-4 pe-4 ";
     createBtnCreaUtil.textContent = "Création du compte";
+    createBtnCreaUtil.disabled = true
     createDivBtnUtil.appendChild(createBtnCreaUtil);
 
     //Création du bouton de reset
@@ -623,7 +641,7 @@ function mainProfil() {
     //Création d'une div pour la zone Nom utilisateur
     const createDivNameProfil = document.createElement('div')
     createDivNameProfil.id = "divNameProfil";
-    createDivNameProfil.className = "mb-3";
+    createDivNameProfil.className = "mb-3 border-bottom border-dark ms-1 me-2";
     containerMainContent.appendChild(createDivNameProfil);
 
     //Création du label de l'email
@@ -653,7 +671,7 @@ function mainProfil() {
     //Création d'une div pour la zone email
     const createDivEmailProfil = document.createElement('div')
     createDivEmailProfil.id = "divEmailProfil";
-    createDivEmailProfil.className = "mb-3";
+    createDivEmailProfil.className = "mb-3 border-bottom border-dark ms-1 me-2";
     containerMainContent.appendChild(createDivEmailProfil);
 
     //Création du label de l'email
@@ -680,7 +698,7 @@ function mainProfil() {
     //Création de la zone de sélection du jeu
     const createDivSelectTypeJeu = document.createElement('div')
     createDivSelectTypeJeu.id = "divSelectTypeJeu";
-    createDivSelectTypeJeu.className = "mb-3";
+    createDivSelectTypeJeu.className = "mb-3 d-flex flex-column align-items-start";
     containerMainContent.appendChild(createDivSelectTypeJeu);
 
     //Création du label du choix du type de jeu
@@ -724,7 +742,7 @@ function mainProfil() {
     //Création de la zone de sélection du jeu
     const createDivSelectTailleJeu = document.createElement('div')
     createDivSelectTailleJeu.id = "divSelectTailleJeu";
-    createDivSelectTailleJeu.className = "mb-3";
+    createDivSelectTailleJeu.className = "mb-3 d-flex flex-column align-items-start";
     containerMainContent.appendChild(createDivSelectTailleJeu);
 
     //Création du label du choix du type de jeu
@@ -739,7 +757,7 @@ function mainProfil() {
     createSelectTailleJeu.className = "text-lowercase text-capitalize";
     createDivSelectTailleJeu.appendChild(createSelectTailleJeu);
 
-    const optionsTailleJeu = ['3*2', '3*4', '4*4']
+    const optionsTailleJeu = ['3*2', '3*4', '4*4', '4*5']
 
     optionsTailleJeu.forEach(element => {
         const optionTailleJeu = document.createElement('option');
@@ -777,18 +795,273 @@ function mainProfil() {
     //Création de la zone des résultat du joueur
     const createDivScoresProfil = document.createElement('div')
     createDivScoresProfil.id = "divScoresProfil";
-    createDivScoresProfil.className = "d-flex justify-content-around mb-3";
+    createDivScoresProfil.className = "d-flex justify-content-center";
     containerMainContent.appendChild(createDivScoresProfil);
+
+    //Création du tableau d'affichage des résultat du joueur
+    const createArrayScoresProfil = document.createElement('table')
+    createArrayScoresProfil.id = "arrayScoresProfil";
+    createArrayScoresProfil.className = "table-hover border border-1 border-dark";
+    createDivScoresProfil.appendChild(createArrayScoresProfil);
+
+    //Création des lignes du tableau d'affichage des résultat du joueur
+    const createTrScoresProfil = document.createElement('tr')
+    createTrScoresProfil.id = "trScoresProfil";
+    createTrScoresProfil.className = "";
+    createArrayScoresProfil.appendChild(createTrScoresProfil);
+
+    const cellulesArray = {
+        'pseudo': 'Pseudo',
+        'score': 'Score',
+        'taille': 'Taille',
+        'choixMemory': 'Choix Memory',
+        'date': 'Date'
+    };
+    console.log(cellulesArray);
+
+    for (const index in cellulesArray) {
+        const createTdScoresProfil = document.createElement('td')
+        createTdScoresProfil.id = index;
+        createTdScoresProfil.className = "border border-1 border-dark";
+        createTdScoresProfil.textContent = cellulesArray[index];
+        createTrScoresProfil.appendChild(createTdScoresProfil);
+    }
+
+
 
 }
 
 function mainJouer() {
     // Modifie le titre dans le main
-    document.getElementById('H2MainContent').textContent = "Jouer";
+    document.getElementById('H2MainContent').textContent = "Derniers meilleurs scores :";
 
     // Création d'une div pour l'ensemble de la main
     const containerMainContent = document.createElement("div");
     containerMainContent.id = "mainContent";
-    containerMainContent.className = "ps-2 mb-2";
+    containerMainContent.className = "ps-2 pe-2 mb-2";
     document.getElementById('divMainContent').appendChild(containerMainContent);
+
+    //--------------------------ZONE TABLEAU DERNIERS SCORES-------------------------------------
+    //Création de la zone des résultat du joueur
+    const createDivScoresJouer = document.createElement('div')
+    createDivScoresJouer.id = "divScoresJouer";
+    createDivScoresJouer.className = "d-flex justify-content-center";
+    containerMainContent.appendChild(createDivScoresJouer);
+
+    //Création du tableau d'affichage des résultat du joueur
+    const createArrayScoresJouer = document.createElement('table')
+    createArrayScoresJouer.id = "arrayScoresJouer";
+    createArrayScoresJouer.className = "table-hover border border-1 border-dark";
+    createDivScoresJouer.appendChild(createArrayScoresJouer);
+
+    //Création des lignes du tableau d'affichage des résultat du joueur
+    const createTrScoresJouer = document.createElement('tr')
+    createTrScoresJouer.id = "trScoresJouer";
+    createTrScoresJouer.className = "";
+    createArrayScoresJouer.appendChild(createTrScoresJouer);
+
+    const cellulesArray = {
+        'pseudo': 'Pseudo',
+        'score': 'Score',
+        'taille': 'Taille',
+        'choixMemory': 'Choix Memory',
+        'date': 'Date'
+    };
+    console.log(cellulesArray);
+
+    for (const index in cellulesArray) {
+        const createTdScoresJouer = document.createElement('td')
+        createTdScoresJouer.id = index;
+        createTdScoresJouer.className = "border border-1 border-dark";
+        createTdScoresJouer.textContent = cellulesArray[index];
+        createTrScoresJouer.appendChild(createTdScoresJouer);
+    }
+
+    //--------------------------ZONE SPAN-------------------------------------
+    //Création de la zone des résultat du joueur
+    const createDivSpanJouer = document.createElement('div')
+    createDivSpanJouer.id = "divSpanJouer";
+    createDivSpanJouer.className = "d-flex flex-column align-items-center m-4";
+    containerMainContent.appendChild(createDivSpanJouer);
+
+    //Création d'un span
+    const createSpanMainContent1 = document.createElement('span');
+    createSpanMainContent1.textContent = "Tentez de gagner avec le moins d'essais possible";
+    createDivSpanJouer.appendChild(createSpanMainContent1);
+    //Création d'un span
+    const createSpanMainContent2 = document.createElement('span');
+    createSpanMainContent2.textContent = "Appuyez sur la barre d'espace pour relancer le jeu";
+    createDivSpanJouer.appendChild(createSpanMainContent2);
+    //Création d'un span
+    const createSpanMainContent3 = document.createElement('span');
+    createSpanMainContent3.textContent = `Nombres de coups${NbrCoupsPartieMemory}`;
+    createDivSpanJouer.appendChild(createSpanMainContent3);
+
+    //--------------------------ZONE TABLEAU JEU MEMORY-------------------------------------
+
+    //Création de la zone pour le tableau du memory
+    const createDivArrayMemoryJouer = document.createElement('div')
+    createDivArrayMemoryJouer.id = "divArrayMemoryJouer";
+    createDivArrayMemoryJouer.className = "d-flex flex-column align-items-center mb-2";
+    containerMainContent.appendChild(createDivArrayMemoryJouer);
+
+    //Création du tableau du memory
+    const createArrayMemoryJouer = document.createElement('table')
+    createArrayMemoryJouer.id = "arrayMemoryJouer";
+    createArrayMemoryJouer.className = "table-hover border border-3 border-dark";
+    createDivArrayMemoryJouer.appendChild(createArrayMemoryJouer);
+    let NbreCasesArrayMemory = 0
+
+    //Création des cellules du tableau du memory
+    for (let i = 0; i < yV; i++) {
+        //Création des lignes du tableau du memory
+        const createTrArrayMemoryJouer = document.createElement('tr')
+        createTrArrayMemoryJouer.id = `trArrayMemoryJouer${i}`;
+        createTrArrayMemoryJouer.className = "a remplir";
+        createArrayMemoryJouer.appendChild(createTrArrayMemoryJouer);
+
+        for (let j = 0; j < xH; j++) {
+            //Création des colonnes du tableau du memory
+            const createTdArrayMemoryJouer = document.createElement('td')
+            createTdArrayMemoryJouer.id = NbreCasesArrayMemory;
+            createTdArrayMemoryJouer.className = "border border-2 border-dark bg-white";
+            createTdArrayMemoryJouer.textContent = NbreCasesArrayMemory;
+            createTrArrayMemoryJouer.appendChild(createTdArrayMemoryJouer);
+            NbreCasesArrayMemory++
+        }
+
+    }
+
+}
+
+function verificationInscription() {
+    const inptNomUtil = document.getElementById('inputNomUtil')
+    const inptEmailUtil = document.getElementById('inputEmailUtil')
+    const inptPwdUtil = document.getElementById('inputPwdUtil')
+    const inptVerifPwdUtil = document.getElementById('inputVerifPwdUtil')
+
+    //--------------------------ZONE VERIF NOM UTIL-------------------------------------
+    inptNomUtil.addEventListener('input', function () {
+        let verifNomUtil = inptNomUtil.value.trim()
+        if (verifNomUtil.length >= 3) {
+            inptNomUtil.setAttribute('class', 'form-control is-valid')
+            nameVerif = true
+        } else if (verifNomUtil.length <= 3) {
+            inptNomUtil.setAttribute('class', 'form-control is-invalid')
+        }
+    })
+
+    //--------------------------ZONE VERIF EMAIL UTIL-------------------------------------
+    inptEmailUtil.addEventListener('input', function () {
+        let verifEmailUtil = inptEmailUtil.value.trim()
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (emailRegex.test(verifEmailUtil)) {
+            inptEmailUtil.setAttribute('class', 'form-control is-valid')
+            emailVerif = true
+        } else if (!emailRegex.test(verifEmailUtil)) {
+            inptEmailUtil.setAttribute('class', 'form-control is-invalid')
+        }
+    })
+
+    //--------------------------ZONE VERIF PWD UTIL-------------------------------------
+    inptPwdUtil.addEventListener('input', function () {
+        let verifPwdUtil = inptPwdUtil.value
+        scorePwd = 0
+        document.getElementById('divJaugeFaiblePwdUtil').setAttribute('class', ' d-none')
+        document.getElementById('divJaugeMoyenPwdUtil').setAttribute('class', 'd-none')
+        document.getElementById('divJaugeFortPwdUtil').setAttribute('class', 'd-none')
+
+
+        // verifier la taille du mot de passe
+        if (verifPwdUtil.length >= 9) {
+            scorePwd += 2
+            console.log('pwd9');
+
+
+        } else if (verifPwdUtil.length >= 6) {
+            scorePwd += 1
+            console.log('pwd6');
+
+
+        }
+
+
+        // verifier si il y a un chiffre
+        if (/\d/.test(verifPwdUtil)) {
+            console.log('pwdChiffre');
+            scorePwd += 1
+
+        }
+
+        // verifier si il y a un caractere special
+        const symbolRegex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+        if (symbolRegex.test(verifPwdUtil)) {
+            scorePwd += 1
+            console.log('pwdCaractereSpecial');
+
+
+        }
+        switch (scorePwd) {
+            case 1:
+                console.log('score de 1');
+                document.getElementById('divJaugeFaiblePwdUtil').setAttribute('class', 'ms-3 me-3 ps-3 pe-3 bg-danger rounded-pill')
+                inptPwdUtil.setAttribute('class', 'form-control is-invalid')
+
+                break;
+            case 2:
+                console.log('score de 2');
+                document.getElementById('divJaugeFaiblePwdUtil').setAttribute('class', 'ms-3 me-3 ps-3 pe-3 bg-danger rounded-pill')
+                inptPwdUtil.setAttribute('class', 'form-control is-invalid')
+                break;
+            case 3:
+                console.log('score de 3');
+                document.getElementById('divJaugeFaiblePwdUtil').setAttribute('class', 'ms-3 me-3 ps-3 pe-3 bg-danger rounded-pill')
+                document.getElementById('divJaugeMoyenPwdUtil').setAttribute('class', 'ms-3 me-3 ps-3 pe-3 bg-warning rounded-pill')
+                inptPwdUtil.setAttribute('class', 'form-control is-valid')
+                pwdConfirm = true
+                break;
+            case 4:
+                console.log('score de 4');
+                document.getElementById('divJaugeFaiblePwdUtil').setAttribute('class', 'ms-3 me-3 ps-3 pe-3 bg-danger rounded-pill')
+                document.getElementById('divJaugeMoyenPwdUtil').setAttribute('class', 'ms-3 me-3 ps-3 pe-3 bg-warning rounded-pill')
+                document.getElementById('divJaugeFortPwdUtil').setAttribute('class', 'ms-3 me-3 ps-3 pe-3 bg-success rounded-pill')
+                inptPwdUtil.setAttribute('class', 'form-control is-valid')
+                pwdConfirm = true
+                break;
+
+            default:
+                break;
+        }
+
+
+    })
+
+    //--------------------------ZONE VERIF ENTRE PWD ET VERIF PWD UTIL-------------------------------------
+    inptVerifPwdUtil.addEventListener('input', function () {
+        if (inptPwdUtil === inptVerifPwdUtil) {
+            const pwdVerif = true
+        }
+    })
+
+    if (pwdVerif && pwdConfirm && emailVerif && nameVerif) {
+        document.getElementById('btnCreaUtil').disabled = false
+
+    }
+}
+
+function boutonInscription() {
+
+    document.getElementById('btnCreaUtil').addEventListener('click', function () {
+        let usersLocalVerif =localStorage.getItem(users)
+        if (usersLocalVerif) {
+            for (let index = 0; index < localStorage.length; index++) {
+                let key = localStorage.key(index)
+                let userData = JSON.parse(localStorage.getItem(key))
+            }
+        }else{
+
+        }
+
+        
+    })
 }
