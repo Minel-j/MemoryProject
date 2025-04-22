@@ -3,18 +3,15 @@ let nomDePage = 'Accueil'
 window.addEventListener('load', init);
 let pageActuelle = 0
 let structureMainActuelle = "d-flex flex-column  justify-content-center mt-6 ms-6 me-6 mb-6 bg-light border border-dark border-2 rounded-3";
-const NbrCoupsPartieMemory = 0
-const yV = 5
-const xH = 4
+let NbrCoupsPartieMemory = 0
+let yV = 5
+let xH = 4
 let scorePwd = 0
-const pwdVerif = false
-const pwdConfirm = false
-const emailVerif = false
-const nameVerif = false
-const pwdVerifBDD = ''
-const pwdConfirmBDD = ''
-const emailVerifBDD = ''
-const nameVerifBDD = ''
+let pwdVerif = false
+let pwdConfirm = false
+let emailVerif = false
+let nameVerif = false
+
 
 
 function init() {
@@ -301,6 +298,7 @@ function clickOnButtonNavBar1() {
     function handleConnexion() {
         document.getElementById('mainContent').remove()
         mainConnexion()
+        BtnPageConnexion()
     }
     function handleProfil() {
         document.getElementById('mainContent').remove()
@@ -356,9 +354,9 @@ function mainInscription() {
     createInputNomUtil.placeholder = "3 caractères minimum"
     createInputNomUtil.type = "text"
     createInputNomUtil.style.width = "94%"
-
-
+    createInputNomUtil.value = "toto"
     createDivNomUtil.appendChild(createInputNomUtil);
+
 
     //Création du label du nom d'utilisateur
     const createLabelNomUtil = document.createElement('label')
@@ -383,7 +381,9 @@ function mainInscription() {
     createInputEmailUtil.placeholder = "votre email"
     createInputEmailUtil.type = "email"
     createInputEmailUtil.style.width = "94%"
+    createInputEmailUtil.value = "toto@toto.fr"
     createDivEmailUtil.appendChild(createInputEmailUtil);
+
 
     //Création du label de l'email
     const createLabelEmailUtil = document.createElement('label')
@@ -408,7 +408,9 @@ function mainInscription() {
     createInputPwdUtil.placeholder = "votre mot de passe"
     createInputPwdUtil.type = "password"
     createInputPwdUtil.style.width = "94%"
+    createInputPwdUtil.value = "azerty@12"
     createDivPwdUtil.appendChild(createInputPwdUtil);
+
 
     //Création du label du password
     const createLabelPwdUtil = document.createElement('label')
@@ -481,6 +483,7 @@ function mainInscription() {
     createInputVerifPwdUtil.placeholder = "confirmez le mot de passe"
     createInputVerifPwdUtil.type = "password"
     createInputVerifPwdUtil.style.width = "94%"
+    createInputVerifPwdUtil.value = "azerty@12"
     createDivVerifPwdUtil.appendChild(createInputVerifPwdUtil);
 
     //Création du label de verification du password
@@ -504,7 +507,7 @@ function mainInscription() {
     createBtnCreaUtil.id = "btnCreaUtil";
     createBtnCreaUtil.className = "btn btn-secondary border border-dark rounded-pill ps-4 pe-4 ";
     createBtnCreaUtil.textContent = "Création du compte";
-    createBtnCreaUtil.disabled = true
+    // createBtnCreaUtil.disabled = true
     createDivBtnUtil.appendChild(createBtnCreaUtil);
 
     //Création du bouton de reset
@@ -548,6 +551,7 @@ function mainConnexion() {
     createInputEmailConnexion.placeholder = "votre email"
     createInputEmailConnexion.type = "email"
     createInputEmailConnexion.style.width = "94%"
+    createInputEmailConnexion.value = 'toto@toto.fr'
     createDivEmailConnexion.appendChild(createInputEmailConnexion);
 
     //Création du label de l'email
@@ -573,6 +577,7 @@ function mainConnexion() {
     createInputPwdConnexion.placeholder = "votre email"
     createInputPwdConnexion.type = "email"
     createInputPwdConnexion.style.width = "94%"
+    createInputPwdConnexion.value = 'azerty@12'
     createDivPwdConnexion.appendChild(createInputPwdConnexion);
 
     //Création du label de l'email
@@ -946,6 +951,9 @@ function verificationInscription() {
         if (verifNomUtil.length >= 3) {
             inptNomUtil.setAttribute('class', 'form-control is-valid')
             nameVerif = true
+
+
+            activationBtnInscription()
         } else if (verifNomUtil.length <= 3) {
             inptNomUtil.setAttribute('class', 'form-control is-invalid')
         }
@@ -958,6 +966,8 @@ function verificationInscription() {
         if (emailRegex.test(verifEmailUtil)) {
             inptEmailUtil.setAttribute('class', 'form-control is-valid')
             emailVerif = true
+
+            activationBtnInscription()
         } else if (!emailRegex.test(verifEmailUtil)) {
             inptEmailUtil.setAttribute('class', 'form-control is-invalid')
         }
@@ -1019,6 +1029,8 @@ function verificationInscription() {
                 document.getElementById('divJaugeMoyenPwdUtil').setAttribute('class', 'ms-3 me-3 ps-3 pe-3 bg-warning rounded-pill')
                 inptPwdUtil.setAttribute('class', 'form-control is-valid')
                 pwdConfirm = true
+
+                activationBtnInscription()
                 break;
             case 4:
                 console.log('score de 4');
@@ -1027,6 +1039,8 @@ function verificationInscription() {
                 document.getElementById('divJaugeFortPwdUtil').setAttribute('class', 'ms-3 me-3 ps-3 pe-3 bg-success rounded-pill')
                 inptPwdUtil.setAttribute('class', 'form-control is-valid')
                 pwdConfirm = true
+
+                activationBtnInscription()
                 break;
 
             default:
@@ -1038,30 +1052,98 @@ function verificationInscription() {
 
     //--------------------------ZONE VERIF ENTRE PWD ET VERIF PWD UTIL-------------------------------------
     inptVerifPwdUtil.addEventListener('input', function () {
-        if (inptPwdUtil === inptVerifPwdUtil) {
-            const pwdVerif = true
+        if (inptPwdUtil.value == inptVerifPwdUtil.value) {
+            inptVerifPwdUtil.setAttribute('class', 'form-control is-valid')
+            console.log('bon mdp');
+
+            pwdVerif = true
+            activationBtnInscription()
+        } else {
+            inptVerifPwdUtil.setAttribute('class', 'form-control is-invalid')
         }
+
+
     })
 
+
+}
+
+function boutonInscription() {
+
+
+
+
+
+    document.getElementById('btnCreaUtil').addEventListener('click', function () {
+        const pwdVerifBDD = document.getElementById('inputPwdUtil').value.trim()
+        const emailVerifBDD = document.getElementById('inputEmailUtil').value.trim()
+        const nameVerifBDD = document.getElementById('inputNomUtil').value.trim()
+
+        const userData = {
+            nom: nameVerifBDD,
+            mail: emailVerifBDD,
+            pwd: pwdVerifBDD
+        };
+
+
+        let usersLocal = JSON.parse(localStorage.getItem('listeUsers')) || []
+        let nameExists = usersLocal.some(user => user.nom === nameVerifBDD);
+        let emailExists = usersLocal.some(user => user.mail === emailVerifBDD);
+
+        if (nameExists) {
+            alert(`Le nom d'utilisateur : ${nameVerifBDD} existe déja, veuillez en utiliser un autre`);
+
+        } else if (emailExists) {
+            alert(`L'email : ${emailVerifBDD} existe déja, veuillez en utiliser un autre`);
+
+        } else {
+            usersLocal.push(userData)
+            localStorage.setItem('listeUsers', JSON.stringify(usersLocal))
+            alert("Félicitation, vous êtes inscrit, vous pouvez maintenant vous connecter!")
+            document.getElementById('mainContent').remove()
+            mainConnexion()
+        }
+
+
+    })
+}
+
+
+function activationBtnInscription() {
     if (pwdVerif && pwdConfirm && emailVerif && nameVerif) {
         document.getElementById('btnCreaUtil').disabled = false
 
     }
 }
 
-function boutonInscription() {
+function BtnPageConnexion() {
+    document.getElementById('btnCreaConnexion').addEventListener('click', function(){
+        const pwdVerifBDD = document.getElementById('inputPwdConnexion').value.trim()
+        const emailVerifBDD = document.getElementById('inputEmailConnexion').value.trim()
 
-    document.getElementById('btnCreaUtil').addEventListener('click', function () {
-        let usersLocalVerif =localStorage.getItem(users)
-        if (usersLocalVerif) {
-            for (let index = 0; index < localStorage.length; index++) {
-                let key = localStorage.key(index)
-                let userData = JSON.parse(localStorage.getItem(key))
-            }
-        }else{
+    let usersLocal = JSON.parse(localStorage.getItem('listeUsers'))
 
-        }
+    let pwdExists = usersLocal.some(user => user.pwd === pwdVerifBDD);
+    let emailExists = usersLocal.some(user => user.mail === emailVerifBDD);
+    // let nameExists = usersLocal.some(user => user.mail === emailVerifBDD);
 
-        
-    })
+console.log(usersLocal);
+
+    console.log(pwdExists);
+    console.log(emailExists);
+    console.log(pwdVerifBDD);
+    console.log(emailVerifBDD);
+
+    let userSession = {
+        // mail:emailVerifBDD,
+
+    }
+    
+    if (pwdExists&&emailExists) {
+        sessionStorage.setItem('listeUsers', JSON.stringify(usersLocal))
+        alert(`L'email : ${emailVerifBDD} est connecté`)
+        document.getElementById('mainContent').remove()
+        mainProfil()
+    }
+})
 }
