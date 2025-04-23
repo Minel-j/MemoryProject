@@ -551,7 +551,6 @@ function mainConnexion() {
     createInputEmailConnexion.placeholder = "votre email"
     createInputEmailConnexion.type = "email"
     createInputEmailConnexion.style.width = "94%"
-    createInputEmailConnexion.value = 'toto@toto.fr'
     createDivEmailConnexion.appendChild(createInputEmailConnexion);
 
     //Création du label de l'email
@@ -577,7 +576,6 @@ function mainConnexion() {
     createInputPwdConnexion.placeholder = "votre email"
     createInputPwdConnexion.type = "email"
     createInputPwdConnexion.style.width = "94%"
-    createInputPwdConnexion.value = 'azerty@12'
     createDivPwdConnexion.appendChild(createInputPwdConnexion);
 
     //Création du label de l'email
@@ -600,7 +598,7 @@ function mainConnexion() {
     const createBtnCreaConnexion = document.createElement('button')
     createBtnCreaConnexion.id = "btnCreaConnexion";
     createBtnCreaConnexion.className = "btn btn-secondary border border-dark rounded-pill ps-4 pe-4 BtnConnexion";
-    createBtnCreaConnexion.textContent = "Création du compte";
+    createBtnCreaConnexion.textContent = "Connexion";
     createDivBtnConnexion.appendChild(createBtnCreaConnexion);
 
     //Création du bouton de reset
@@ -718,7 +716,7 @@ function mainProfil() {
     createSelectTypeJeu.className = "text-lowercase text-capitalize";
     createDivSelectTypeJeu.appendChild(createSelectTypeJeu);
 
-    const optionsTypeJeu = ['exemple', 'dinosaure', 'chiens']
+    const optionsTypeJeu = ['exemple', 'dinosaures', 'chiens']
 
     optionsTypeJeu.forEach(element => {
         const optionTypeJeu = document.createElement('option');
@@ -822,7 +820,6 @@ function mainProfil() {
         'choixMemory': 'Choix Memory',
         'date': 'Date'
     };
-    console.log(cellulesArray);
 
     for (const index in cellulesArray) {
         const createTdScoresProfil = document.createElement('td')
@@ -831,7 +828,7 @@ function mainProfil() {
         createTdScoresProfil.textContent = cellulesArray[index];
         createTrScoresProfil.appendChild(createTdScoresProfil);
     }
-
+    gestionProfil()
 
 
 }
@@ -903,6 +900,16 @@ function mainJouer() {
     createDivSpanJouer.appendChild(createSpanMainContent3);
 
     //--------------------------ZONE TABLEAU JEU MEMORY-------------------------------------
+    //Verifie si l'utilisateur connexté a spécifié un jeu et une taille
+    if (sessionStorage.getItem('tailleMemory') && sessionStorage.getItem('typeMemory')) {
+        const tailleSessionMemory = sessionStorage.getItem('tailleMemory').split('*')
+        yV = tailleSessionMemory[0]
+        xH = tailleSessionMemory[1]
+    } else {
+        alert("Veuillez vous connecter avant de commencer à jouer!")
+        document.getElementById('mainContent').remove()
+        mainConnexion()
+    }
 
     //Création de la zone pour le tableau du memory
     const createDivArrayMemoryJouer = document.createElement('div')
@@ -928,15 +935,20 @@ function mainJouer() {
         for (let j = 0; j < xH; j++) {
             //Création des colonnes du tableau du memory
             const createTdArrayMemoryJouer = document.createElement('td')
-            createTdArrayMemoryJouer.id = NbreCasesArrayMemory;
-            createTdArrayMemoryJouer.className = "border border-2 border-dark bg-white";
-            createTdArrayMemoryJouer.textContent = NbreCasesArrayMemory;
+
+            createTdArrayMemoryJouer.className = "border border-2 border-dark bg-white text-center";
+            // createTdArrayMemoryJouer.textContent = NbreCasesArrayMemory;
             createTrArrayMemoryJouer.appendChild(createTdArrayMemoryJouer);
+            const createImgArrayMemoryJouer = document.createElement('img')
+            createImgArrayMemoryJouer.id = NbreCasesArrayMemory;
+            createImgArrayMemoryJouer.src = 'images/icons/question.svg'
+            createImgArrayMemoryJouer.className = 'img-fluid imgMemory'
+            createTdArrayMemoryJouer.appendChild(createImgArrayMemoryJouer);
             NbreCasesArrayMemory++
         }
 
     }
-
+    gestionMemory()
 }
 
 function verificationInscription() {
@@ -1117,33 +1129,147 @@ function activationBtnInscription() {
 }
 
 function BtnPageConnexion() {
-    document.getElementById('btnCreaConnexion').addEventListener('click', function(){
+    document.getElementById('btnCreaConnexion').addEventListener('click', function () {
         const pwdVerifBDD = document.getElementById('inputPwdConnexion').value.trim()
         const emailVerifBDD = document.getElementById('inputEmailConnexion').value.trim()
 
-    let usersLocal = JSON.parse(localStorage.getItem('listeUsers'))
+        let usersLocal = JSON.parse(localStorage.getItem('listeUsers'))
 
-    let pwdExists = usersLocal.some(user => user.pwd === pwdVerifBDD);
-    let emailExists = usersLocal.some(user => user.mail === emailVerifBDD);
-    // let nameExists = usersLocal.some(user => user.mail === emailVerifBDD);
 
-console.log(usersLocal);
 
-    console.log(pwdExists);
-    console.log(emailExists);
-    console.log(pwdVerifBDD);
-    console.log(emailVerifBDD);
 
-    let userSession = {
-        // mail:emailVerifBDD,
+        let emailSession = ''
+        let pwdSession = ''
+        for (let index = 0; index < usersLocal.length; index++) {
 
-    }
-    
-    if (pwdExists&&emailExists) {
-        sessionStorage.setItem('listeUsers', JSON.stringify(usersLocal))
-        alert(`L'email : ${emailVerifBDD} est connecté`)
-        document.getElementById('mainContent').remove()
-        mainProfil()
-    }
-})
+
+            if (usersLocal[index].mail == emailVerifBDD && usersLocal[index].pwd == pwdVerifBDD) {
+                emailSession = usersLocal[index].mail
+                nomSession = usersLocal[index].nom
+
+                const userSession = {
+                    nom: nomSession,
+                    mail: emailSession
+                }
+                sessionStorage.removeItem('userSession')
+                sessionStorage.setItem('userSession', JSON.stringify(userSession))
+                alert("Félicitation, vous êtes maintenant vous connecté!")
+                document.getElementById('mainContent').remove()
+                mainProfil()
+                break;
+
+            } else {
+                console.log("CACA");
+
+            }
+
+
+
+        }
+
+
+
+
+
+        let userSession = {
+            // mail:emailVerifBDD,
+
+        }
+
+        if (pwdExists && emailExists) {
+            sessionStorage.setItem('listeUsers', JSON.stringify(usersLocal))
+            alert(`L'email : ${emailVerifBDD} est connecté`)
+            document.getElementById('mainContent').remove()
+            mainProfil()
+        }
+    })
 }
+
+function gestionProfil() {
+    //Récupération et assignation des nom et mail de l'utilisateur en session storage
+    const userSession = JSON.parse(sessionStorage.getItem('userSession'))
+    console.log(userSession.nom);
+    console.log(userSession.mail);
+
+    document.getElementById('inputNameProfil').value = userSession.nom
+    document.getElementById('inputEmailProfil').value = userSession.mail
+    let tailleJeuSelect = ''
+    let typeJeuSelect = ''
+    // fonction du select pour attibuer une image en fonction de l'option selectionné
+    document.getElementById('selectTypeJeu').addEventListener('change', function () {
+        typeJeuSelect = document.getElementById('selectTypeJeu').value
+        console.log('Jeu selectionné : ' + typeJeuSelect);
+        document.getElementById('imageProfilTypeJeu').src = `images/jeu/${typeJeuSelect}/${typeJeuSelect}.png`
+    })
+
+    // fonction du select pour choisir la taille du jeu en fonction de l'option selectionné
+    document.getElementById('selectTailleJeu').addEventListener('change', function () {
+        tailleJeuSelect = document.getElementById('selectTailleJeu').value
+        console.log('Jeu selectionné : ' + tailleJeuSelect);
+    })
+
+    //Fonction du bouton pour valider les parametres et changer de page
+    document.getElementById('buttonProfil').addEventListener('click', function () {
+        //Si la personne est connectée, les parametres sont enrgistrer dans la session
+        console.log('click');
+
+        if (userSession.mail && userSession.nom) {
+            console.log('if');
+
+            sessionStorage.setItem('tailleMemory', tailleJeuSelect)
+            sessionStorage.setItem('typeMemory', typeJeuSelect)
+            document.getElementById('mainContent').remove()
+            mainJouer()
+        } else {
+            alert("Veuillez vous connecter avant de commencer à jouer!")
+        }
+    })
+
+    //Récupération des derniers score du joueur
+
+}
+
+function gestionMemory() {
+    //--------------------------Génération des images aleatoires-------------------------------------
+    //Déclarations de constantes
+    const tailleSessionMemory = sessionStorage.getItem('tailleMemory').split('*')
+    const valTailleSessionMemory = tailleSessionMemory[0] * tailleSessionMemory[1]
+    let valTailleDiviseSessionMemory = (valTailleSessionMemory) / 2
+    console.log('taille de base : ' + valTailleSessionMemory);
+    console.log('taille divisée : ' + valTailleDiviseSessionMemory);
+    const typeSessionMemory = sessionStorage.getItem('typeMemory').valueOf()
+
+    //--------------------------Création du tableau de valeurs-------------------------------------
+    //Création nouveau tableau avec chaques valeurs mises deux fois
+    let aTableauMemory = new Array()
+    for (let index = 0; index < valTailleDiviseSessionMemory; index++) {
+        aTableauMemory.push(index)
+        aTableauMemory.push(index)
+
+    }
+
+    //Reorganistation du tableau en random
+    for (let index = 0; index < valTailleSessionMemory; index++) {
+
+        let nbreRandom = Math.floor(Math.random() * ((valTailleSessionMemory)))
+        let l = aTableauMemory[index]
+        aTableauMemory[index] = aTableauMemory[nbreRandom]
+        aTableauMemory[nbreRandom] = l
+    }
+
+//--------------------------Changement des images quand on clic-------------------------------------
+
+
+    //Quand on clique sur une image, une autre se charge
+    $('.imgMemory').on('click', function () {
+        let elem = this
+        let newVal = aTableauMemory[elem.id] + 1
+        elem.src = `images/jeu/${typeSessionMemory}/${newVal}.jpg`
+
+
+
+
+
+    })
+}
+

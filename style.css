@@ -98,12 +98,21 @@ input::placeholder {
 #arrayMemoryJouer td{
     width: 20vh;
     height: 15vh;
+   
+}
+
+#arrayMemoryJouer td img{
+    cursor: url(images/icons/diamondSword32x.png), url(images/icons/diamondSword.cur), pointer;
+
 }
 
 #arrayScoresJouer td{
     width: 15vh;
     text-align: center;
 }
+
+
+
 /* ---------- Configuration Responsive 1500px---------- */
 
 @media screen and (max-width: 1500px) {
