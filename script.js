@@ -574,7 +574,7 @@ function mainConnexion() {
     createInputPwdConnexion.id = "inputPwdConnexion";
     createInputPwdConnexion.className = "form-control";
     createInputPwdConnexion.placeholder = "votre email"
-    createInputPwdConnexion.type = "email"
+    createInputPwdConnexion.type = "password"
     createInputPwdConnexion.style.width = "94%"
     createDivPwdConnexion.appendChild(createInputPwdConnexion);
 
@@ -869,7 +869,7 @@ function mainJouer() {
         'choixMemory': 'Choix Memory',
         'date': 'Date'
     };
-    console.log(cellulesArray);
+
 
     for (const index in cellulesArray) {
         const createTdScoresJouer = document.createElement('td')
@@ -896,6 +896,7 @@ function mainJouer() {
     createDivSpanJouer.appendChild(createSpanMainContent2);
     //Création d'un span
     const createSpanMainContent3 = document.createElement('span');
+    createSpanMainContent3.id = `nbresDeCoups`;
     createSpanMainContent3.textContent = `Nombres de coups${NbrCoupsPartieMemory}`;
     createDivSpanJouer.appendChild(createSpanMainContent3);
 
@@ -1188,8 +1189,7 @@ function BtnPageConnexion() {
 function gestionProfil() {
     //Récupération et assignation des nom et mail de l'utilisateur en session storage
     const userSession = JSON.parse(sessionStorage.getItem('userSession'))
-    console.log(userSession.nom);
-    console.log(userSession.mail);
+
 
     document.getElementById('inputNameProfil').value = userSession.nom
     document.getElementById('inputEmailProfil').value = userSession.mail
@@ -1198,14 +1198,14 @@ function gestionProfil() {
     // fonction du select pour attibuer une image en fonction de l'option selectionné
     document.getElementById('selectTypeJeu').addEventListener('change', function () {
         typeJeuSelect = document.getElementById('selectTypeJeu').value
-        console.log('Jeu selectionné : ' + typeJeuSelect);
+
         document.getElementById('imageProfilTypeJeu').src = `images/jeu/${typeJeuSelect}/${typeJeuSelect}.png`
     })
 
     // fonction du select pour choisir la taille du jeu en fonction de l'option selectionné
     document.getElementById('selectTailleJeu').addEventListener('change', function () {
         tailleJeuSelect = document.getElementById('selectTailleJeu').value
-        console.log('Jeu selectionné : ' + tailleJeuSelect);
+
     })
 
     //Fonction du bouton pour valider les parametres et changer de page
@@ -1214,7 +1214,7 @@ function gestionProfil() {
         console.log('click');
 
         if (userSession.mail && userSession.nom) {
-            console.log('if');
+
 
             sessionStorage.setItem('tailleMemory', tailleJeuSelect)
             sessionStorage.setItem('typeMemory', typeJeuSelect)
@@ -1235,9 +1235,17 @@ function gestionMemory() {
     const tailleSessionMemory = sessionStorage.getItem('tailleMemory').split('*')
     const valTailleSessionMemory = tailleSessionMemory[0] * tailleSessionMemory[1]
     let valTailleDiviseSessionMemory = (valTailleSessionMemory) / 2
-    console.log('taille de base : ' + valTailleSessionMemory);
-    console.log('taille divisée : ' + valTailleDiviseSessionMemory);
     const typeSessionMemory = sessionStorage.getItem('typeMemory').valueOf()
+    NbrCoupsPartieMemory = 0
+let spanNbreCoups = document.getElementById('nbresDeCoups')
+spanNbreCoups.textContent = `Nombres de coups : ${NbrCoupsPartieMemory}`
+
+    let image1 = ''
+    let image2 = ''
+    let image1Id = ''
+    let image2Id = ''
+    let count = 0
+    
 
     //--------------------------Création du tableau de valeurs-------------------------------------
     //Création nouveau tableau avec chaques valeurs mises deux fois
@@ -1257,19 +1265,123 @@ function gestionMemory() {
         aTableauMemory[nbreRandom] = l
     }
 
-//--------------------------Changement des images quand on clic-------------------------------------
+    //--------------------------Changement des images quand on clic-------------------------------------
 
 
     //Quand on clique sur une image, une autre se charge
     $('.imgMemory').on('click', function () {
         let elem = this
         let newVal = aTableauMemory[elem.id] + 1
+
         elem.src = `images/jeu/${typeSessionMemory}/${newVal}.jpg`
+
+        // createSpanMainContent3.id = `nbresDeCoups`;
+        // createSpanMainContent3.textContent = `Nombres de coups${NbrCoupsPartieMemory}`;
+
+        if (image1 === '') {
+            image1 = newVal
+            image1Id = elem.id
+            NbrCoupsPartieMemory++
+            spanNbreCoups.textContent = `Nombres de coups : ${NbrCoupsPartieMemory}`
+            count++
+            console.log("count : " + count);
+            console.log("image 1 :" + image1);
+            console.log("image 2 :" + image2);
+            console.log("image 1ID :" + image1Id);
+            console.log("image 2ID :" + image2Id);
+
+        } else {
+            image2 = newVal
+            image2Id = elem.id
+            // NbrCoupsPartieMemory++
+            // spanNbreCoups.textContent = `Nombres de coups : ${NbrCoupsPartieMemory}`
+            count++
+            console.log("count : " + count);
+            console.log("image 1 :" + image1);
+            console.log("image 2 :" + image2);
+            console.log("image 1ID :" + image1Id);
+            console.log("image 2ID :" + image2Id);
+        }
+
+        if (count == 2) {
+            console.log("2 click");
+
+            
+            let elem1 = document.getElementById(image1Id);
+            let elem2 = document.getElementById(image2Id);
+            console.log(elem1);
+            console.log(elem2);
+
+            if (image1 == image2) {
+                console.log("deux images pareil");
+                setTimeout(function () {
+                    elem1.src = 'images/icons/check.svg'
+                    elem1.className = 'img-fluid imgMemory checkMemory'
+                    elem2.src = 'images/icons/check.svg'
+                    elem2.className = 'img-fluid imgMemory checkMemory'
+                    count = 0
+                    image1 = ''
+                    image2 = ''
+                    image1Id = ''
+                    image2Id = ''
+                }, 1000)
+            } else {
+                setTimeout(function () {
+                    count = 0
+                    image1 = ''
+                    image2 = ''
+                    image1Id = ''
+                    image2Id = ''
+                    elem1.src = 'images/icons/question.svg'
+                    elem2.src = 'images/icons/question.svg'
+                }, 1000)
+
+            }
+
+        }
+console.log("Nombre de coups actuellement : "+NbrCoupsPartieMemory);
 
 
 
 
 
     })
+    //--------------------------restart du jeu-------------------------------------
+    //Quand on appuie sur une touche le jeu redemarre
+    document.addEventListener('keydown', (event) => {
+        const key = event.key;
+        const code = event.code;
+
+        if (key === ' ') {
+            document.getElementById('mainContent').remove()
+            mainJouer()
+        }
+    })
+
+
+
+    //--------------------------Ajout des scores dans le local storage-------------------------------------
+//Récupération des informations de la partie Pseudo, score, taille, type et date
+let jour = aujourdHui.getDate();
+let mois = aujourdHui.getMonth() + 1; 
+let annee = aujourdHui.getFullYear();
+
+let dateDuJour = `${jour}/${mois}/${annee}`;
+const tailleSessionMemoryFinPartie = sessionStorage.getItem('tailleMemory').valueOf()
+const typeSessionMemoryFinPartie = sessionStorage.getItem('typeMemory').valueOf()
+const nomSessionMemoryFinPartie = sessionStorage.getItem('userSession', 'nom')
+const scoreSessionMemoryFinPartie = NbrCoupsPartieMemory
+const SessionMemoryFinPartie = dateDuJour
+
+let scores = {
+    pseudo:nomSessionMemoryFinPartie,
+    score:scoreSessionMemoryFinPartie,
+    taille:tailleSessionMemoryFinPartie,
+    type:typeSessionMemoryFinPartie,
+    date:SessionMemoryFinPartie,
+}
+
+
+
 }
 

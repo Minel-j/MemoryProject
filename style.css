@@ -111,7 +111,9 @@ input::placeholder {
     text-align: center;
 }
 
-
+.checkMemory{
+    pointer-events: none;
+}
 
 /* ---------- Configuration Responsive 1500px---------- */
 
