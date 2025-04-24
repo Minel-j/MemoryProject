@@ -879,6 +879,28 @@ function mainJouer() {
         createTrScoresJouer.appendChild(createTdScoresJouer);
     }
 
+    //Ajout des derniers meilleurs scores
+    //récupération des données depuis le localStorage
+    const recupScoresMemoryStr = localStorage.getItem('scoresMemory')
+    //Convertit le JSON et tableau
+    let recupScoresMemory = JSON.parse(recupScoresMemoryStr)
+    recupScoresMemory.sort((a, b) => a.score - b.score)
+
+    //parcour chaques lignes du tableau pour creer une ligne du tableau
+    recupScoresMemory.forEach((ligne, index) => {
+        const createTrScoresLocalStorage = document.createElement('tr')
+        createTrScoresLocalStorage.className = "";
+        createArrayScoresJouer.appendChild(createTrScoresLocalStorage);
+
+        //Pour chaques lignes il va créer une cellule contenant les infos des scores
+        for (const [cle, valeur] of Object.entries(ligne)) {
+            const createTdScoresLocalStorage = document.createElement('td')
+            createTdScoresLocalStorage.className = "border border-1 border-dark";
+            createTdScoresLocalStorage.textContent = valeur;
+            createTrScoresLocalStorage.appendChild(createTdScoresLocalStorage);
+        }
+    });
+
     //--------------------------ZONE SPAN-------------------------------------
     //Création de la zone des résultat du joueur
     const createDivSpanJouer = document.createElement('div')
@@ -950,6 +972,7 @@ function mainJouer() {
 
     }
     gestionMemory()
+
 }
 
 function verificationInscription() {
@@ -1236,16 +1259,19 @@ function gestionMemory() {
     const valTailleSessionMemory = tailleSessionMemory[0] * tailleSessionMemory[1]
     let valTailleDiviseSessionMemory = (valTailleSessionMemory) / 2
     const typeSessionMemory = sessionStorage.getItem('typeMemory').valueOf()
+    const userSessionFront = sessionStorage.getItem('userSession')
+    const parsed = JSON.parse(userSessionFront)
     NbrCoupsPartieMemory = 0
-let spanNbreCoups = document.getElementById('nbresDeCoups')
-spanNbreCoups.textContent = `Nombres de coups : ${NbrCoupsPartieMemory}`
+    let spanNbreCoups = document.getElementById('nbresDeCoups')
+    spanNbreCoups.textContent = `Nombres de coups : ${NbrCoupsPartieMemory}`
 
     let image1 = ''
     let image2 = ''
     let image1Id = ''
     let image2Id = ''
     let count = 0
-    
+    let checkFinPartie = 0
+
 
     //--------------------------Création du tableau de valeurs-------------------------------------
     //Création nouveau tableau avec chaques valeurs mises deux fois
@@ -1273,10 +1299,8 @@ spanNbreCoups.textContent = `Nombres de coups : ${NbrCoupsPartieMemory}`
         let elem = this
         let newVal = aTableauMemory[elem.id] + 1
 
-        elem.src = `images/jeu/${typeSessionMemory}/${newVal}.jpg`
 
-        // createSpanMainContent3.id = `nbresDeCoups`;
-        // createSpanMainContent3.textContent = `Nombres de coups${NbrCoupsPartieMemory}`;
+        elem.src = `images/jeu/${typeSessionMemory}/${newVal}.jpg`
 
         if (image1 === '') {
             image1 = newVal
@@ -1284,36 +1308,18 @@ spanNbreCoups.textContent = `Nombres de coups : ${NbrCoupsPartieMemory}`
             NbrCoupsPartieMemory++
             spanNbreCoups.textContent = `Nombres de coups : ${NbrCoupsPartieMemory}`
             count++
-            console.log("count : " + count);
-            console.log("image 1 :" + image1);
-            console.log("image 2 :" + image2);
-            console.log("image 1ID :" + image1Id);
-            console.log("image 2ID :" + image2Id);
-
         } else {
             image2 = newVal
             image2Id = elem.id
-            // NbrCoupsPartieMemory++
-            // spanNbreCoups.textContent = `Nombres de coups : ${NbrCoupsPartieMemory}`
             count++
-            console.log("count : " + count);
-            console.log("image 1 :" + image1);
-            console.log("image 2 :" + image2);
-            console.log("image 1ID :" + image1Id);
-            console.log("image 2ID :" + image2Id);
         }
 
         if (count == 2) {
-            console.log("2 click");
-
-            
             let elem1 = document.getElementById(image1Id);
             let elem2 = document.getElementById(image2Id);
-            console.log(elem1);
-            console.log(elem2);
 
             if (image1 == image2) {
-                console.log("deux images pareil");
+
                 setTimeout(function () {
                     elem1.src = 'images/icons/check.svg'
                     elem1.className = 'img-fluid imgMemory checkMemory'
@@ -1324,6 +1330,39 @@ spanNbreCoups.textContent = `Nombres de coups : ${NbrCoupsPartieMemory}`
                     image2 = ''
                     image1Id = ''
                     image2Id = ''
+                    checkFinPartie++
+                    console.log("check : " + checkFinPartie);
+                    console.log("nombre pour finir : " + valTailleDiviseSessionMemory);
+
+                    if (checkFinPartie == valTailleDiviseSessionMemory) {
+                        alert(`PARTIE TERMINEE!!! Vous avez réussi avec un score de : ${NbrCoupsPartieMemory}, votre score va etre enregistrer dans votre navigateur.`)
+                        // Récupération des informations de la partie Pseudo, score, taille, type et date
+                        let aujourdHui = new Date();
+                        let jour = aujourdHui.getDate();
+                        let mois = aujourdHui.getMonth() + 1;
+                        let annee = aujourdHui.getFullYear();
+
+                        let dateDuJour = `${jour}/${mois}/${annee}`;
+                        const tailleSessionMemoryFinPartie = sessionStorage.getItem('tailleMemory').valueOf()
+                        const typeSessionMemoryFinPartie = sessionStorage.getItem('typeMemory').valueOf()
+                        const nomSessionMemoryFinPartie = parsed.nom
+                        const scoreSessionMemoryFinPartie = NbrCoupsPartieMemory
+                        const SessionMemoryFinPartie = dateDuJour
+
+                        let scores = {
+                            pseudo: nomSessionMemoryFinPartie,
+                            score: scoreSessionMemoryFinPartie,
+                            taille: tailleSessionMemoryFinPartie,
+                            type: typeSessionMemoryFinPartie,
+                            date: SessionMemoryFinPartie,
+                        }
+
+                        const scoresStr = localStorage.getItem('scoresMemory') || '[]';
+                        const scoresLocal = JSON.parse(scoresStr);
+                        scoresLocal.push(scores);
+                        localStorage.setItem('scoresMemory', JSON.stringify(scoresLocal));
+                    }
+
                 }, 1000)
             } else {
                 setTimeout(function () {
@@ -1339,7 +1378,8 @@ spanNbreCoups.textContent = `Nombres de coups : ${NbrCoupsPartieMemory}`
             }
 
         }
-console.log("Nombre de coups actuellement : "+NbrCoupsPartieMemory);
+        //--------------------------Ajout des scores dans le local storage-------------------------------------
+
 
 
 
@@ -1357,31 +1397,5 @@ console.log("Nombre de coups actuellement : "+NbrCoupsPartieMemory);
             mainJouer()
         }
     })
-
-
-
-    //--------------------------Ajout des scores dans le local storage-------------------------------------
-//Récupération des informations de la partie Pseudo, score, taille, type et date
-let jour = aujourdHui.getDate();
-let mois = aujourdHui.getMonth() + 1; 
-let annee = aujourdHui.getFullYear();
-
-let dateDuJour = `${jour}/${mois}/${annee}`;
-const tailleSessionMemoryFinPartie = sessionStorage.getItem('tailleMemory').valueOf()
-const typeSessionMemoryFinPartie = sessionStorage.getItem('typeMemory').valueOf()
-const nomSessionMemoryFinPartie = sessionStorage.getItem('userSession', 'nom')
-const scoreSessionMemoryFinPartie = NbrCoupsPartieMemory
-const SessionMemoryFinPartie = dateDuJour
-
-let scores = {
-    pseudo:nomSessionMemoryFinPartie,
-    score:scoreSessionMemoryFinPartie,
-    taille:tailleSessionMemoryFinPartie,
-    type:typeSessionMemoryFinPartie,
-    date:SessionMemoryFinPartie,
-}
-
-
-
 }
 
