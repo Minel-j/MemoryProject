@@ -115,6 +115,27 @@ input::placeholder {
     pointer-events: none;
 }
 
+.containerImg{
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    height: 150px;
+}
+.imageDefilante {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    animation: defilement 5s linear infinite;
+}
+
+@keyframes defilement{
+    0% {
+        transform: translateX(-100%); /* Part de la gauche */
+    }
+    100% {
+        transform: translateX(100%); /* Arrive à droite */
+    }
+}
 /* ---------- Configuration Responsive 1500px---------- */
 
 @media screen and (max-width: 1500px) {

@@ -2,8 +2,8 @@
 let nomDePage = 'Accueil'
 window.addEventListener('load', init);
 let pageActuelle = 0
-let structureMainActuelle = "d-flex flex-column  justify-content-center mt-6 ms-6 me-6 mb-6 bg-light border border-dark border-2 rounded-3";
-let NbrCoupsPartieMemory = 0
+let structureMainActuelle = "d-flex flex-column justify-content-center mt-6 ms-6 me-6 mb-6 bg-light border border-dark border-2 rounded-3";
+let nbrCoupsPartieMemory = 0
 let yV = 5
 let xH = 4
 let scorePwd = 0
@@ -11,8 +11,6 @@ let pwdVerif = false
 let pwdConfirm = false
 let emailVerif = false
 let nameVerif = false
-
-
 
 function init() {
 
@@ -22,12 +20,7 @@ function init() {
     structureMain()
     mainAccueil()
     clickOnButtonNavBar1()
-
-
     footer()
-
-
-
 
 }
 
@@ -35,7 +28,7 @@ function structureNavBar() {
     // 1. Créer la div parente
     const container = document.createElement("div");
     container.id = "divParentNavBar";
-    container.className = "d-flex justify-content-around border-dark border border-2 rounded-3 pt-2 pb-2 ms-4 me-4 bg-light rounded-3 divParentNavBar";
+    container.className = "d-flex justify-content-around border-dark border border-2 rounded-3 pt-2 pb-2 ms-4 me-4 bg-light divParentNavBar";
     container.style = "--bs-bg-opacity: .5;"
 
 
@@ -44,7 +37,7 @@ function structureNavBar() {
         // Créer une div enfant
         const childDiv = document.createElement("div");
         childDiv.id = `divEnfant${i}`;
-        childDiv.className = 'btn btn-success divBtnNavBar'
+        childDiv.className = ''
 
 
         // Créer un bouton
@@ -97,14 +90,13 @@ function structureHeader() {
     const container = document.createElement("div");
     container.id = "divTitleHeader";
     container.className = "d-flex justify-content-center pt-3 pb-3";
+    document.querySelector('header').prepend(container);
 
     const createH1TitrePage = document.createElement("h1")
     createH1TitrePage.id = 'h1TitleHeader'
     createH1TitrePage.textContent = `ENI - MEMORY - ${nomDePage}`
-
-
     container.appendChild(createH1TitrePage)
-    document.querySelector('header').prepend(container);
+
     const h1TitrePage = document.getElementById('h1TitleHeader')
     h1TitrePage.innerHTML = h1TitrePage.innerHTML.replace(
         'MEMORY',
@@ -117,30 +109,22 @@ function structureMain() {
     container.id = "divMainContent";
     container.className = structureMainActuelle
     container.style = "--bs-bg-opacity: .5; min-height: calc(100vh - 150px);";
-
-    const temponDivMainToDivMain = document.createElement("div");
-    temponDivMainToDivMain.id = "DivMainToDivMain";
-    temponDivMainToDivMain.className = "a remplir";
+    document.querySelector('main').appendChild(container);
 
     const containerTitleDivMainContent = document.createElement("div");
     containerTitleDivMainContent.id = "TitleDivMainContent";
     containerTitleDivMainContent.className = "d-flex justify-content-center mb-4";
+    container.appendChild(containerTitleDivMainContent)
 
     const containerContentDivMainContent = document.createElement("div");
     containerContentDivMainContent.id = "ContentDivMainContent";
-    containerContentDivMainContent.className = "";
+    container.appendChild(containerContentDivMainContent)
 
     const createH2MainContent = document.createElement('h2')
     createH2MainContent.id = 'H2MainContent'
-
-
     containerTitleDivMainContent.appendChild(createH2MainContent)
-    temponDivMainToDivMain.appendChild(containerTitleDivMainContent)
-    temponDivMainToDivMain.appendChild(containerContentDivMainContent)
-    container.appendChild(temponDivMainToDivMain)
 
-    document.querySelector('main').appendChild(container);
-}
+    }
 
 function mainAccueil() {
     // Modifie le titre dans le main
@@ -168,13 +152,11 @@ function mainAccueil() {
 
     const createTitreListeRegles = document.createElement('h3');  // Changé de 'head' à 'h3'
     createTitreListeRegles.id = "titreListeRegles";
-    createTitreListeRegles.className = "a remplir";
     createTitreListeRegles.textContent = 'Règles du jeu :';
     containerDivListeRegles.appendChild(createTitreListeRegles);
 
     const createListeRegles = document.createElement('ul');
     createListeRegles.id = "listeRegles";
-    createListeRegles.className = "a remplir";
     containerDivListeRegles.appendChild(createListeRegles);
 
     // Création du titre de la liste (HEAD n'est pas approprié ici)
@@ -194,7 +176,6 @@ function mainAccueil() {
     for (let index = 0; index < regles.length; index++) {
         const createListes = document.createElement('li');
         createListes.id = `liste${index}`;
-        createListes.className = "a remplir";
         createListes.textContent = regles[index];  // Ajout du texte directement ici
         createListeRegles.appendChild(createListes);
     }
@@ -246,34 +227,37 @@ function mainAccueil() {
 
 function footer() {
 
-
     const containerDivMainFooter = document.createElement("div");
     containerDivMainFooter.id = "divMainFooter";
     containerDivMainFooter.className = "d-flex justify-content-center mt-2 mb-2";
+    document.querySelector('footer').appendChild(containerDivMainFooter);
+
+    const containerImgLeftFooter = document.createElement("img");
+    containerImgLeftFooter.id = "imgLeftFooter";
+    containerImgLeftFooter.className = "imageDefilante";
+    containerImgLeftFooter.src = "images/icons/creeper.png";
+    containerDivMainFooter.appendChild(containerImgLeftFooter)
 
     const containerDivLeftFooter = document.createElement("div");
     containerDivLeftFooter.id = "divLeftFooter";
-    containerDivLeftFooter.className = "a remplir";
+    containerDivLeftFooter.className = "containerImg";
+    containerDivMainFooter.appendChild(containerDivLeftFooter)
 
     const containerDivCenterFooter = document.createElement("div");
     containerDivCenterFooter.id = "divCenterFooter";
     containerDivCenterFooter.className = "a remplir";
-
-    const containerDivRightFooter = document.createElement("div");
-    containerDivRightFooter.id = "divRightFooter";
-    containerDivRightFooter.className = "";
-
+    containerDivMainFooter.appendChild(containerDivCenterFooter)
     const containerH5CenterFooter = document.createElement("h5");
     containerH5CenterFooter.id = "H5CenterFooter";
     containerH5CenterFooter.className = "a remplir";
     containerH5CenterFooter.textContent = 'COPYRIGHT'
-
-
     containerDivCenterFooter.appendChild(containerH5CenterFooter)
-    containerDivMainFooter.appendChild(containerDivLeftFooter)
-    containerDivMainFooter.appendChild(containerDivCenterFooter)
+
+    const containerDivRightFooter = document.createElement("div");
+    containerDivRightFooter.id = "divRightFooter";
+    containerDivRightFooter.className = "";
     containerDivMainFooter.appendChild(containerDivRightFooter)
-    document.querySelector('footer').appendChild(containerDivMainFooter);
+
 }
 
 function clickOnButtonNavBar1() {
@@ -573,7 +557,7 @@ function mainConnexion() {
     const createInputPwdConnexion = document.createElement('input')
     createInputPwdConnexion.id = "inputPwdConnexion";
     createInputPwdConnexion.className = "form-control";
-    createInputPwdConnexion.placeholder = "votre email"
+    createInputPwdConnexion.placeholder = "votre mot de passe"
     createInputPwdConnexion.type = "password"
     createInputPwdConnexion.style.width = "94%"
     createDivPwdConnexion.appendChild(createInputPwdConnexion);
@@ -617,6 +601,7 @@ function mainProfil() {
     structureMainActuelle = "d-flex flex-column  justify-content-center mt-7 ms-7 me-7 mb-7 bg-light border border-dark border-2 rounded-3 divMainContentConnexion";
     document.getElementById('divMainContent').className = structureMainActuelle
     document.getElementById('divMainContent').style = "--bs-bg-opacity: .5;";
+    const userSession = JSON.parse(sessionStorage.getItem('userSession'))
 
 
     // Création d'une div pour l'ensemble de la main
@@ -647,7 +632,7 @@ function mainProfil() {
     createDivNameProfil.className = "mb-3 border-bottom border-dark ms-1 me-2";
     containerMainContent.appendChild(createDivNameProfil);
 
-    //Création du label de l'email
+    //Création du label du Nom d'utilisateur
     const createLabelNameProfil = document.createElement('label')
     createLabelNameProfil.id = "labelNameProfil";
     createLabelNameProfil.className = "a remplir";
@@ -655,16 +640,14 @@ function mainProfil() {
     createLabelNameProfil.setAttribute("for", "inputNameProfil")
     createDivNameProfil.appendChild(createLabelNameProfil);
 
-    //Création de l'input de l'email
+    //Création du label du Nom d'utilisateur
     const createInputNameProfil = document.createElement('input')
     createInputNameProfil.id = "inputNameProfil";
     createInputNameProfil.className = "inputSaisie";
     createInputNameProfil.placeholder = "votre nom d'utilisateur"
-    createInputNameProfil.type = "email"
+    createInputNameProfil.type = "text"
     createInputNameProfil.style.width = "94%"
     createInputNameProfil.readOnly = true
-    createInputNameProfil.textContent = 'Toto'
-
     createDivNameProfil.appendChild(createInputNameProfil);
 
 
@@ -690,10 +673,9 @@ function mainProfil() {
     createInputEmailProfil.id = "inputEmailProfil";
     createInputEmailProfil.className = "inputSaisie";
     createInputEmailProfil.placeholder = "votre email"
-    createInputEmailProfil.type = "text"
+    createInputEmailProfil.type = "email"
     createInputEmailProfil.style.width = "94%"
     createInputEmailProfil.readOnly = true
-    createInputEmailProfil.textContent = 'Toto'
     createDivEmailProfil.appendChild(createInputEmailProfil);
 
     //--------------------------ZONE SELECT TYPE--------------------------------
@@ -828,6 +810,49 @@ function mainProfil() {
         createTdScoresProfil.textContent = cellulesArray[index];
         createTrScoresProfil.appendChild(createTdScoresProfil);
     }
+    //Ajout des derniers meilleurs scores
+    //récupération des données depuis le localStorage
+
+
+    if (localStorage.getItem('scoresMemory')) {
+        const recupScoresMemoryStr = localStorage.getItem('scoresMemory')
+        //Convertit le JSON et tableau
+        let recupScoresMemory = JSON.parse(recupScoresMemoryStr)
+        recupScoresMemory.sort((a, b) => a.score - b.score)
+
+        //Recuperation du nom utilisateur de la session 
+        const recupNomUtilSession = sessionStorage.getItem('userSession')
+        let nomUtilSession = JSON.parse(recupNomUtilSession).nom
+        console.log("nomUtilSession " + nomUtilSession);
+
+
+
+        //parcour chaques lignes du tableau pour creer une ligne du tableau
+        recupScoresMemory.forEach((ligne, index) => {
+            // Pas besoin de JSON.parse car ligne est déjà un objet
+            console.log("Ligne actuelle:", ligne); // Debug: affiche chaque score
+
+            // Comparaison directe avec le pseudo
+            if (ligne.pseudo === nomUtilSession) {  // Notez .pseudo et non .nom
+                console.log("Correspondance trouvée ! Pseudo:", ligne.pseudo);
+
+                // Création de la ligne de tableau (comme dans votre code original)
+                const createTrScoresLocalStorage = document.createElement('tr');
+                createTrScoresLocalStorage.className = "";
+                createArrayScoresProfil.appendChild(createTrScoresLocalStorage);
+
+                // Ajout des cellules TD avec les valeurs
+                for (const [cle, valeur] of Object.entries(ligne)) {
+                    const createTdScoresLocalStorage = document.createElement('td');
+                    createTdScoresLocalStorage.className = "border border-1 border-dark";
+                    createTdScoresLocalStorage.textContent = valeur;
+                    createTrScoresLocalStorage.appendChild(createTdScoresLocalStorage);
+                }
+            }
+        });
+    }
+
+
     gestionProfil()
 
 
@@ -881,25 +906,27 @@ function mainJouer() {
 
     //Ajout des derniers meilleurs scores
     //récupération des données depuis le localStorage
-    const recupScoresMemoryStr = localStorage.getItem('scoresMemory')
-    //Convertit le JSON et tableau
-    let recupScoresMemory = JSON.parse(recupScoresMemoryStr)
-    recupScoresMemory.sort((a, b) => a.score - b.score)
+    if (localStorage.getItem('scoresMemory')) {
+        const recupScoresMemoryStr = localStorage.getItem('scoresMemory')
+        //Convertit le JSON et tableau
+        let recupScoresMemory = JSON.parse(recupScoresMemoryStr)
+        recupScoresMemory.sort((a, b) => a.score - b.score)
 
-    //parcour chaques lignes du tableau pour creer une ligne du tableau
-    recupScoresMemory.forEach((ligne, index) => {
-        const createTrScoresLocalStorage = document.createElement('tr')
-        createTrScoresLocalStorage.className = "";
-        createArrayScoresJouer.appendChild(createTrScoresLocalStorage);
+        //parcour chaques lignes du tableau pour creer une ligne du tableau
+        recupScoresMemory.forEach((ligne, index) => {
+            const createTrScoresLocalStorage = document.createElement('tr')
+            createTrScoresLocalStorage.className = "";
+            createArrayScoresJouer.appendChild(createTrScoresLocalStorage);
 
-        //Pour chaques lignes il va créer une cellule contenant les infos des scores
-        for (const [cle, valeur] of Object.entries(ligne)) {
-            const createTdScoresLocalStorage = document.createElement('td')
-            createTdScoresLocalStorage.className = "border border-1 border-dark";
-            createTdScoresLocalStorage.textContent = valeur;
-            createTrScoresLocalStorage.appendChild(createTdScoresLocalStorage);
-        }
-    });
+            //Pour chaques lignes il va créer une cellule contenant les infos des scores
+            for (const [cle, valeur] of Object.entries(ligne)) {
+                const createTdScoresLocalStorage = document.createElement('td')
+                createTdScoresLocalStorage.className = "border border-1 border-dark";
+                createTdScoresLocalStorage.textContent = valeur;
+                createTrScoresLocalStorage.appendChild(createTdScoresLocalStorage);
+            }
+        });
+    }
 
     //--------------------------ZONE SPAN-------------------------------------
     //Création de la zone des résultat du joueur
@@ -919,7 +946,7 @@ function mainJouer() {
     //Création d'un span
     const createSpanMainContent3 = document.createElement('span');
     createSpanMainContent3.id = `nbresDeCoups`;
-    createSpanMainContent3.textContent = `Nombres de coups${NbrCoupsPartieMemory}`;
+    createSpanMainContent3.textContent = `Nombres de coups${nbrCoupsPartieMemory}`;
     createDivSpanJouer.appendChild(createSpanMainContent3);
 
     //--------------------------ZONE TABLEAU JEU MEMORY-------------------------------------
@@ -1159,13 +1186,9 @@ function BtnPageConnexion() {
 
         let usersLocal = JSON.parse(localStorage.getItem('listeUsers'))
 
-
-
-
         let emailSession = ''
-        let pwdSession = ''
+        let nomSession = ''
         for (let index = 0; index < usersLocal.length; index++) {
-
 
             if (usersLocal[index].mail == emailVerifBDD && usersLocal[index].pwd == pwdVerifBDD) {
                 emailSession = usersLocal[index].mail
@@ -1187,35 +1210,17 @@ function BtnPageConnexion() {
 
             }
 
-
-
         }
 
-
-
-
-
-        let userSession = {
-            // mail:emailVerifBDD,
-
-        }
-
-        if (pwdExists && emailExists) {
-            sessionStorage.setItem('listeUsers', JSON.stringify(usersLocal))
-            alert(`L'email : ${emailVerifBDD} est connecté`)
-            document.getElementById('mainContent').remove()
-            mainProfil()
-        }
     })
 }
 
 function gestionProfil() {
     //Récupération et assignation des nom et mail de l'utilisateur en session storage
-    const userSession = JSON.parse(sessionStorage.getItem('userSession'))
+    const userSession = JSON.parse(sessionStorage.getItem('userSession'));
 
-
-    document.getElementById('inputNameProfil').value = userSession.nom
-    document.getElementById('inputEmailProfil').value = userSession.mail
+    document.getElementById('inputNameProfil').value = userSession.nom;
+    document.getElementById('inputEmailProfil').value = userSession.mail;
     let tailleJeuSelect = ''
     let typeJeuSelect = ''
     // fonction du select pour attibuer une image en fonction de l'option selectionné
@@ -1234,11 +1239,12 @@ function gestionProfil() {
     //Fonction du bouton pour valider les parametres et changer de page
     document.getElementById('buttonProfil').addEventListener('click', function () {
         //Si la personne est connectée, les parametres sont enrgistrer dans la session
-        console.log('click');
+
 
         if (userSession.mail && userSession.nom) {
 
-
+            sessionStorage.removeItem('tailleMemory')
+            sessionStorage.removeItem('typeMemory')
             sessionStorage.setItem('tailleMemory', tailleJeuSelect)
             sessionStorage.setItem('typeMemory', typeJeuSelect)
             document.getElementById('mainContent').remove()
@@ -1261,9 +1267,9 @@ function gestionMemory() {
     const typeSessionMemory = sessionStorage.getItem('typeMemory').valueOf()
     const userSessionFront = sessionStorage.getItem('userSession')
     const parsed = JSON.parse(userSessionFront)
-    NbrCoupsPartieMemory = 0
+    nbrCoupsPartieMemory = 0
     let spanNbreCoups = document.getElementById('nbresDeCoups')
-    spanNbreCoups.textContent = `Nombres de coups : ${NbrCoupsPartieMemory}`
+    spanNbreCoups.textContent = `Nombres de coups : ${nbrCoupsPartieMemory}`
 
     let image1 = ''
     let image2 = ''
@@ -1305,8 +1311,8 @@ function gestionMemory() {
         if (image1 === '') {
             image1 = newVal
             image1Id = elem.id
-            NbrCoupsPartieMemory++
-            spanNbreCoups.textContent = `Nombres de coups : ${NbrCoupsPartieMemory}`
+            nbrCoupsPartieMemory++
+            spanNbreCoups.textContent = `Nombres de coups : ${nbrCoupsPartieMemory}`
             count++
         } else {
             image2 = newVal
@@ -1335,7 +1341,7 @@ function gestionMemory() {
                     console.log("nombre pour finir : " + valTailleDiviseSessionMemory);
 
                     if (checkFinPartie == valTailleDiviseSessionMemory) {
-                        alert(`PARTIE TERMINEE!!! Vous avez réussi avec un score de : ${NbrCoupsPartieMemory}, votre score va etre enregistrer dans votre navigateur.`)
+                        alert(`PARTIE TERMINEE!!! Vous avez réussi avec un score de : ${nbrCoupsPartieMemory}, votre score va etre enregistrer dans votre navigateur.`)
                         // Récupération des informations de la partie Pseudo, score, taille, type et date
                         let aujourdHui = new Date();
                         let jour = aujourdHui.getDate();
@@ -1346,7 +1352,7 @@ function gestionMemory() {
                         const tailleSessionMemoryFinPartie = sessionStorage.getItem('tailleMemory').valueOf()
                         const typeSessionMemoryFinPartie = sessionStorage.getItem('typeMemory').valueOf()
                         const nomSessionMemoryFinPartie = parsed.nom
-                        const scoreSessionMemoryFinPartie = NbrCoupsPartieMemory
+                        const scoreSessionMemoryFinPartie = nbrCoupsPartieMemory
                         const SessionMemoryFinPartie = dateDuJour
 
                         let scores = {
