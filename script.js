@@ -603,13 +603,13 @@ function boutonInscription() {
         const pwdVerifBDD = document.getElementById('inputPwdUtil').value.trim()
         const emailVerifBDD = document.getElementById('inputEmailUtil').value.trim()
         const nameVerifBDD = document.getElementById('inputNomUtil').value.trim()
-        let pwdVerifBDDEncrypt = encrypt(pwdVerifBDD, cleChiffre)
+        // let pwdVerifBDDEncrypt = encrypt(pwdVerifBDD, cleChiffre)
 
 
         const userData = {
             nom: nameVerifBDD,
             mail: emailVerifBDD,
-            pwd: pwdVerifBDDEncrypt
+            pwd: pwdVerifBDD
         };
 
 
@@ -736,9 +736,9 @@ function BtnPageConnexion() {
         let emailSession = ''
         let nomSession = ''
         for (let index = 0; index < usersLocal.length; index++) {
-            let pwdVerifBDDDecrypt = decrypt(usersLocal[index].pwd, cleChiffre)
+            // let pwdVerifBDDDecrypt = decrypt(usersLocal[index].pwd, cleChiffre)
 
-            if (usersLocal[index].mail == emailVerifBDD && pwdVerifBDDDecrypt == pwdVerifBDD) {
+            if (usersLocal[index].mail == emailVerifBDD && usersLocal[index].pwd == pwdVerifBDD) {
                 verif = true
                 emailSession = usersLocal[index].mail
                 nomSession = usersLocal[index].nom
