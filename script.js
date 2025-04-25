@@ -11,6 +11,7 @@ let pwdVerif = false
 let pwdConfirm = false
 let emailVerif = false
 let nameVerif = false
+let cleChiffre = 4
 
 function init() {
 
@@ -31,14 +32,12 @@ function structureNavBar() {
     container.className = "d-flex justify-content-around border-dark border border-2 rounded-3 pt-2 pb-2 ms-4 me-4 bg-light divParentNavBar";
     container.style = "--bs-bg-opacity: .5;"
 
-
     // 2. Créer 5 div enfants + boutons
     for (let i = 1; i <= 5; i++) {
         // Créer une div enfant
         const childDiv = document.createElement("div");
         childDiv.id = `divEnfant${i}`;
         childDiv.className = ''
-
 
         // Créer un bouton
         const button = document.createElement("button");
@@ -76,11 +75,9 @@ function structureNavBar() {
     btnnNavBar5.textContent = 'Jouer'
     btnnNavBar5.id = 'btnJouer'
 
-
 }
 
 function attributeValue() {
-
 
     document.querySelector('footer').className = 'bg-light border border-dark border-2 rounded-3'
     document.querySelector('footer').style = "--bs-bg-opacity: .5;"
@@ -105,6 +102,7 @@ function structureHeader() {
 }
 
 function structureMain() {
+    
     const container = document.createElement("div");
     container.id = "divMainContent";
     container.className = structureMainActuelle
@@ -124,9 +122,10 @@ function structureMain() {
     createH2MainContent.id = 'H2MainContent'
     containerTitleDivMainContent.appendChild(createH2MainContent)
 
-    }
+}
 
 function mainAccueil() {
+
     // Modifie le titre dans le main
     document.getElementById('H2MainContent').textContent = "Bienvenue sur mon projet de Memory";
 
@@ -158,12 +157,6 @@ function mainAccueil() {
     const createListeRegles = document.createElement('ul');
     createListeRegles.id = "listeRegles";
     containerDivListeRegles.appendChild(createListeRegles);
-
-    // Création du titre de la liste (HEAD n'est pas approprié ici)
-
-
-    // Ajout du titre avant la liste
-
 
     // Création des éléments de liste
     const regles = [
@@ -232,12 +225,6 @@ function footer() {
     containerDivMainFooter.className = "d-flex justify-content-center mt-2 mb-2";
     document.querySelector('footer').appendChild(containerDivMainFooter);
 
-    const containerImgLeftFooter = document.createElement("img");
-    containerImgLeftFooter.id = "imgLeftFooter";
-    containerImgLeftFooter.className = "imageDefilante";
-    containerImgLeftFooter.src = "images/icons/creeper.png";
-    containerDivMainFooter.appendChild(containerImgLeftFooter)
-
     const containerDivLeftFooter = document.createElement("div");
     containerDivLeftFooter.id = "divLeftFooter";
     containerDivLeftFooter.className = "containerImg";
@@ -261,6 +248,7 @@ function footer() {
 }
 
 function clickOnButtonNavBar1() {
+
     // Récupération des boutons
     const btnAccueil = document.getElementById('btnAccueil');
     const btnInscription = document.getElementById('btnInscription');
@@ -309,6 +297,7 @@ function clickOnButtonNavBar1() {
 }
 
 function mainInscription() {
+
     // Modifie le titre dans le main
     document.getElementById('H2MainContent').textContent = "Inscrivez-vous";
 
@@ -394,7 +383,6 @@ function mainInscription() {
     createInputPwdUtil.style.width = "94%"
     createInputPwdUtil.value = "azerty@12"
     createDivPwdUtil.appendChild(createInputPwdUtil);
-
 
     //Création du label du password
     const createLabelPwdUtil = document.createElement('label')
@@ -501,8 +489,154 @@ function mainInscription() {
     createBtnResetUtil.textContent = "Reset";
     createDivBtnUtil.appendChild(createBtnResetUtil);
 
+}
+
+function verificationInscription() {
+
+    const inptNomUtil = document.getElementById('inputNomUtil')
+    const inptEmailUtil = document.getElementById('inputEmailUtil')
+    const inptPwdUtil = document.getElementById('inputPwdUtil')
+    const inptVerifPwdUtil = document.getElementById('inputVerifPwdUtil')
+
+    //--------------------------ZONE VERIF NOM UTIL-------------------------------------
+    inptNomUtil.addEventListener('input', function () {
+        let verifNomUtil = inptNomUtil.value.trim()
+        if (verifNomUtil.length >= 3) {
+            inptNomUtil.setAttribute('class', 'form-control is-valid')
+            nameVerif = true
 
 
+            activationBtnInscription()
+        } else if (verifNomUtil.length <= 3) {
+            inptNomUtil.setAttribute('class', 'form-control is-invalid')
+        }
+    })
+
+    //--------------------------ZONE VERIF EMAIL UTIL-------------------------------------
+    inptEmailUtil.addEventListener('input', function () {
+        let verifEmailUtil = inptEmailUtil.value.trim()
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (emailRegex.test(verifEmailUtil)) {
+            inptEmailUtil.setAttribute('class', 'form-control is-valid')
+            emailVerif = true
+
+            activationBtnInscription()
+        } else if (!emailRegex.test(verifEmailUtil)) {
+            inptEmailUtil.setAttribute('class', 'form-control is-invalid')
+        }
+    })
+
+    //--------------------------ZONE VERIF PWD UTIL-------------------------------------
+    inptPwdUtil.addEventListener('input', function () {
+        let verifPwdUtil = inptPwdUtil.value
+        scorePwd = 0
+        document.getElementById('divJaugeFaiblePwdUtil').setAttribute('class', ' d-none')
+        document.getElementById('divJaugeMoyenPwdUtil').setAttribute('class', 'd-none')
+        document.getElementById('divJaugeFortPwdUtil').setAttribute('class', 'd-none')
+
+
+        // verifier la taille du mot de passe
+        if (verifPwdUtil.length >= 9) {
+            scorePwd += 2
+        } else if (verifPwdUtil.length >= 6) {
+            scorePwd += 1
+        }
+
+        // verifier si il y a un chiffre
+        if (/\d/.test(verifPwdUtil)) {
+            scorePwd += 1
+        }
+
+        // verifier si il y a un caractere special
+        const symbolRegex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+        if (symbolRegex.test(verifPwdUtil)) {
+            scorePwd += 1
+        }
+
+        switch (scorePwd) {
+            case 1:
+                document.getElementById('divJaugeFaiblePwdUtil').setAttribute('class', 'ms-3 me-3 ps-3 pe-3 bg-danger rounded-pill')
+                inptPwdUtil.setAttribute('class', 'form-control is-invalid')
+                break;
+            case 2:
+                document.getElementById('divJaugeFaiblePwdUtil').setAttribute('class', 'ms-3 me-3 ps-3 pe-3 bg-danger rounded-pill')
+                inptPwdUtil.setAttribute('class', 'form-control is-invalid')
+                break;
+            case 3:
+                document.getElementById('divJaugeFaiblePwdUtil').setAttribute('class', 'ms-3 me-3 ps-3 pe-3 bg-danger rounded-pill')
+                document.getElementById('divJaugeMoyenPwdUtil').setAttribute('class', 'ms-3 me-3 ps-3 pe-3 bg-warning rounded-pill')
+                inptPwdUtil.setAttribute('class', 'form-control is-valid')
+                pwdConfirm = true
+                activationBtnInscription()
+                break;
+            case 4:
+                document.getElementById('divJaugeFaiblePwdUtil').setAttribute('class', 'ms-3 me-3 ps-3 pe-3 bg-danger rounded-pill')
+                document.getElementById('divJaugeMoyenPwdUtil').setAttribute('class', 'ms-3 me-3 ps-3 pe-3 bg-warning rounded-pill')
+                document.getElementById('divJaugeFortPwdUtil').setAttribute('class', 'ms-3 me-3 ps-3 pe-3 bg-success rounded-pill')
+                inptPwdUtil.setAttribute('class', 'form-control is-valid')
+                pwdConfirm = true
+                activationBtnInscription()
+                break;
+
+            default:
+                break;
+        }
+    })
+
+    //--------------------------ZONE VERIF ENTRE PWD ET VERIF PWD UTIL-------------------------------------
+    inptVerifPwdUtil.addEventListener('input', function () {
+        if (inptPwdUtil.value == inptVerifPwdUtil.value) {
+            inptVerifPwdUtil.setAttribute('class', 'form-control is-valid')
+            pwdVerif = true
+            activationBtnInscription()
+        } else {
+            inptVerifPwdUtil.setAttribute('class', 'form-control is-invalid')
+        }
+    })
+}
+
+function activationBtnInscription() {
+    if (pwdVerif && pwdConfirm && emailVerif && nameVerif) {
+        document.getElementById('btnCreaUtil').disabled = false
+    }
+}
+
+function boutonInscription() {
+
+    document.getElementById('btnCreaUtil').addEventListener('click', function () {
+        const pwdVerifBDD = document.getElementById('inputPwdUtil').value.trim()
+        const emailVerifBDD = document.getElementById('inputEmailUtil').value.trim()
+        const nameVerifBDD = document.getElementById('inputNomUtil').value.trim()
+        let pwdVerifBDDEncrypt = encrypt(pwdVerifBDD, cleChiffre)
+
+
+        const userData = {
+            nom: nameVerifBDD,
+            mail: emailVerifBDD,
+            pwd: pwdVerifBDDEncrypt
+        };
+
+
+        let usersLocal = JSON.parse(localStorage.getItem('listeUsers')) || []
+        let nameExists = usersLocal.some(user => user.nom === nameVerifBDD);
+        let emailExists = usersLocal.some(user => user.mail === emailVerifBDD);
+
+        if (nameExists) {
+            alert(`Le nom d'utilisateur : ${nameVerifBDD} existe déja, veuillez en utiliser un autre`);
+
+        } else if (emailExists) {
+            alert(`L'email : ${emailVerifBDD} existe déja, veuillez en utiliser un autre`);
+
+        } else {
+            usersLocal.push(userData)
+            localStorage.setItem('listeUsers', JSON.stringify(usersLocal))
+            alert("Félicitation, vous êtes inscrit, vous pouvez maintenant vous connecter!")
+            document.getElementById('mainContent').remove()
+            mainConnexion()
+        }
+
+
+    })
 }
 
 function mainConnexion() {
@@ -592,6 +726,45 @@ function mainConnexion() {
     createBtnResetConnexion.textContent = "Reset";
     createDivBtnConnexion.appendChild(createBtnResetConnexion);
 
+}
+
+function BtnPageConnexion() {
+    document.getElementById('btnCreaConnexion').addEventListener('click', function () {
+        const pwdVerifBDD = document.getElementById('inputPwdConnexion').value.trim()
+        const emailVerifBDD = document.getElementById('inputEmailConnexion').value.trim()
+        let usersLocal = JSON.parse(localStorage.getItem('listeUsers'))
+        let verif = false
+
+
+
+        let emailSession = ''
+        let nomSession = ''
+        for (let index = 0; index < usersLocal.length; index++) {
+            let pwdVerifBDDDecrypt = decrypt(usersLocal[index].pwd, cleChiffre)
+
+            if (usersLocal[index].mail == emailVerifBDD && pwdVerifBDDDecrypt == pwdVerifBDD) {
+                verif = true
+                emailSession = usersLocal[index].mail
+                nomSession = usersLocal[index].nom
+
+                const userSession = {
+                    nom: nomSession,
+                    mail: emailSession
+                }
+                sessionStorage.removeItem('userSession')
+                sessionStorage.setItem('userSession', JSON.stringify(userSession))
+                alert("Félicitation, vous êtes maintenant vous connecté!")
+                document.getElementById('mainContent').remove()
+                mainProfil()
+                break;
+
+            }
+
+        }
+        if (!verif) {
+            alert('Mauvais identifiant ou mot de passe, veuillez réessayer.')
+        }
+    })
 }
 
 function mainProfil() {
@@ -823,18 +996,18 @@ function mainProfil() {
         //Recuperation du nom utilisateur de la session 
         const recupNomUtilSession = sessionStorage.getItem('userSession')
         let nomUtilSession = JSON.parse(recupNomUtilSession).nom
-        console.log("nomUtilSession " + nomUtilSession);
+
 
 
 
         //parcour chaques lignes du tableau pour creer une ligne du tableau
         recupScoresMemory.forEach((ligne, index) => {
             // Pas besoin de JSON.parse car ligne est déjà un objet
-            console.log("Ligne actuelle:", ligne); // Debug: affiche chaque score
+
 
             // Comparaison directe avec le pseudo
             if (ligne.pseudo === nomUtilSession) {  // Notez .pseudo et non .nom
-                console.log("Correspondance trouvée ! Pseudo:", ligne.pseudo);
+
 
                 // Création de la ligne de tableau (comme dans votre code original)
                 const createTrScoresLocalStorage = document.createElement('tr');
@@ -1002,219 +1175,6 @@ function mainJouer() {
 
 }
 
-function verificationInscription() {
-    const inptNomUtil = document.getElementById('inputNomUtil')
-    const inptEmailUtil = document.getElementById('inputEmailUtil')
-    const inptPwdUtil = document.getElementById('inputPwdUtil')
-    const inptVerifPwdUtil = document.getElementById('inputVerifPwdUtil')
-
-    //--------------------------ZONE VERIF NOM UTIL-------------------------------------
-    inptNomUtil.addEventListener('input', function () {
-        let verifNomUtil = inptNomUtil.value.trim()
-        if (verifNomUtil.length >= 3) {
-            inptNomUtil.setAttribute('class', 'form-control is-valid')
-            nameVerif = true
-
-
-            activationBtnInscription()
-        } else if (verifNomUtil.length <= 3) {
-            inptNomUtil.setAttribute('class', 'form-control is-invalid')
-        }
-    })
-
-    //--------------------------ZONE VERIF EMAIL UTIL-------------------------------------
-    inptEmailUtil.addEventListener('input', function () {
-        let verifEmailUtil = inptEmailUtil.value.trim()
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (emailRegex.test(verifEmailUtil)) {
-            inptEmailUtil.setAttribute('class', 'form-control is-valid')
-            emailVerif = true
-
-            activationBtnInscription()
-        } else if (!emailRegex.test(verifEmailUtil)) {
-            inptEmailUtil.setAttribute('class', 'form-control is-invalid')
-        }
-    })
-
-    //--------------------------ZONE VERIF PWD UTIL-------------------------------------
-    inptPwdUtil.addEventListener('input', function () {
-        let verifPwdUtil = inptPwdUtil.value
-        scorePwd = 0
-        document.getElementById('divJaugeFaiblePwdUtil').setAttribute('class', ' d-none')
-        document.getElementById('divJaugeMoyenPwdUtil').setAttribute('class', 'd-none')
-        document.getElementById('divJaugeFortPwdUtil').setAttribute('class', 'd-none')
-
-
-        // verifier la taille du mot de passe
-        if (verifPwdUtil.length >= 9) {
-            scorePwd += 2
-            console.log('pwd9');
-
-
-        } else if (verifPwdUtil.length >= 6) {
-            scorePwd += 1
-            console.log('pwd6');
-
-
-        }
-
-
-        // verifier si il y a un chiffre
-        if (/\d/.test(verifPwdUtil)) {
-            console.log('pwdChiffre');
-            scorePwd += 1
-
-        }
-
-        // verifier si il y a un caractere special
-        const symbolRegex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
-        if (symbolRegex.test(verifPwdUtil)) {
-            scorePwd += 1
-            console.log('pwdCaractereSpecial');
-
-
-        }
-        switch (scorePwd) {
-            case 1:
-                console.log('score de 1');
-                document.getElementById('divJaugeFaiblePwdUtil').setAttribute('class', 'ms-3 me-3 ps-3 pe-3 bg-danger rounded-pill')
-                inptPwdUtil.setAttribute('class', 'form-control is-invalid')
-
-                break;
-            case 2:
-                console.log('score de 2');
-                document.getElementById('divJaugeFaiblePwdUtil').setAttribute('class', 'ms-3 me-3 ps-3 pe-3 bg-danger rounded-pill')
-                inptPwdUtil.setAttribute('class', 'form-control is-invalid')
-                break;
-            case 3:
-                console.log('score de 3');
-                document.getElementById('divJaugeFaiblePwdUtil').setAttribute('class', 'ms-3 me-3 ps-3 pe-3 bg-danger rounded-pill')
-                document.getElementById('divJaugeMoyenPwdUtil').setAttribute('class', 'ms-3 me-3 ps-3 pe-3 bg-warning rounded-pill')
-                inptPwdUtil.setAttribute('class', 'form-control is-valid')
-                pwdConfirm = true
-
-                activationBtnInscription()
-                break;
-            case 4:
-                console.log('score de 4');
-                document.getElementById('divJaugeFaiblePwdUtil').setAttribute('class', 'ms-3 me-3 ps-3 pe-3 bg-danger rounded-pill')
-                document.getElementById('divJaugeMoyenPwdUtil').setAttribute('class', 'ms-3 me-3 ps-3 pe-3 bg-warning rounded-pill')
-                document.getElementById('divJaugeFortPwdUtil').setAttribute('class', 'ms-3 me-3 ps-3 pe-3 bg-success rounded-pill')
-                inptPwdUtil.setAttribute('class', 'form-control is-valid')
-                pwdConfirm = true
-
-                activationBtnInscription()
-                break;
-
-            default:
-                break;
-        }
-
-
-    })
-
-    //--------------------------ZONE VERIF ENTRE PWD ET VERIF PWD UTIL-------------------------------------
-    inptVerifPwdUtil.addEventListener('input', function () {
-        if (inptPwdUtil.value == inptVerifPwdUtil.value) {
-            inptVerifPwdUtil.setAttribute('class', 'form-control is-valid')
-            console.log('bon mdp');
-
-            pwdVerif = true
-            activationBtnInscription()
-        } else {
-            inptVerifPwdUtil.setAttribute('class', 'form-control is-invalid')
-        }
-
-
-    })
-
-
-}
-
-function boutonInscription() {
-
-
-
-
-
-    document.getElementById('btnCreaUtil').addEventListener('click', function () {
-        const pwdVerifBDD = document.getElementById('inputPwdUtil').value.trim()
-        const emailVerifBDD = document.getElementById('inputEmailUtil').value.trim()
-        const nameVerifBDD = document.getElementById('inputNomUtil').value.trim()
-
-        const userData = {
-            nom: nameVerifBDD,
-            mail: emailVerifBDD,
-            pwd: pwdVerifBDD
-        };
-
-
-        let usersLocal = JSON.parse(localStorage.getItem('listeUsers')) || []
-        let nameExists = usersLocal.some(user => user.nom === nameVerifBDD);
-        let emailExists = usersLocal.some(user => user.mail === emailVerifBDD);
-
-        if (nameExists) {
-            alert(`Le nom d'utilisateur : ${nameVerifBDD} existe déja, veuillez en utiliser un autre`);
-
-        } else if (emailExists) {
-            alert(`L'email : ${emailVerifBDD} existe déja, veuillez en utiliser un autre`);
-
-        } else {
-            usersLocal.push(userData)
-            localStorage.setItem('listeUsers', JSON.stringify(usersLocal))
-            alert("Félicitation, vous êtes inscrit, vous pouvez maintenant vous connecter!")
-            document.getElementById('mainContent').remove()
-            mainConnexion()
-        }
-
-
-    })
-}
-
-
-function activationBtnInscription() {
-    if (pwdVerif && pwdConfirm && emailVerif && nameVerif) {
-        document.getElementById('btnCreaUtil').disabled = false
-
-    }
-}
-
-function BtnPageConnexion() {
-    document.getElementById('btnCreaConnexion').addEventListener('click', function () {
-        const pwdVerifBDD = document.getElementById('inputPwdConnexion').value.trim()
-        const emailVerifBDD = document.getElementById('inputEmailConnexion').value.trim()
-
-        let usersLocal = JSON.parse(localStorage.getItem('listeUsers'))
-
-        let emailSession = ''
-        let nomSession = ''
-        for (let index = 0; index < usersLocal.length; index++) {
-
-            if (usersLocal[index].mail == emailVerifBDD && usersLocal[index].pwd == pwdVerifBDD) {
-                emailSession = usersLocal[index].mail
-                nomSession = usersLocal[index].nom
-
-                const userSession = {
-                    nom: nomSession,
-                    mail: emailSession
-                }
-                sessionStorage.removeItem('userSession')
-                sessionStorage.setItem('userSession', JSON.stringify(userSession))
-                alert("Félicitation, vous êtes maintenant vous connecté!")
-                document.getElementById('mainContent').remove()
-                mainProfil()
-                break;
-
-            } else {
-                console.log("CACA");
-
-            }
-
-        }
-
-    })
-}
-
 function gestionProfil() {
     //Récupération et assignation des nom et mail de l'utilisateur en session storage
     const userSession = JSON.parse(sessionStorage.getItem('userSession'));
@@ -1278,14 +1238,12 @@ function gestionMemory() {
     let count = 0
     let checkFinPartie = 0
 
-
     //--------------------------Création du tableau de valeurs-------------------------------------
     //Création nouveau tableau avec chaques valeurs mises deux fois
     let aTableauMemory = new Array()
     for (let index = 0; index < valTailleDiviseSessionMemory; index++) {
         aTableauMemory.push(index)
         aTableauMemory.push(index)
-
     }
 
     //Reorganistation du tableau en random
@@ -1299,12 +1257,10 @@ function gestionMemory() {
 
     //--------------------------Changement des images quand on clic-------------------------------------
 
-
     //Quand on clique sur une image, une autre se charge
     $('.imgMemory').on('click', function () {
         let elem = this
         let newVal = aTableauMemory[elem.id] + 1
-
 
         elem.src = `images/jeu/${typeSessionMemory}/${newVal}.jpg`
 
@@ -1337,8 +1293,6 @@ function gestionMemory() {
                     image1Id = ''
                     image2Id = ''
                     checkFinPartie++
-                    console.log("check : " + checkFinPartie);
-                    console.log("nombre pour finir : " + valTailleDiviseSessionMemory);
 
                     if (checkFinPartie == valTailleDiviseSessionMemory) {
                         alert(`PARTIE TERMINEE!!! Vous avez réussi avec un score de : ${nbrCoupsPartieMemory}, votre score va etre enregistrer dans votre navigateur.`)
@@ -1384,14 +1338,9 @@ function gestionMemory() {
             }
 
         }
-        //--------------------------Ajout des scores dans le local storage-------------------------------------
-
-
-
-
-
-
+        
     })
+
     //--------------------------restart du jeu-------------------------------------
     //Quand on appuie sur une touche le jeu redemarre
     document.addEventListener('keydown', (event) => {
@@ -1405,3 +1354,20 @@ function gestionMemory() {
     })
 }
 
+function encrypt(text, key) {
+    let result = "";
+    for (let i = 0; i < text.length; i++) {
+        let code = text.charCodeAt(i);
+        result += String.fromCharCode(code + key);
+    }
+    return result;
+}
+
+function decrypt(text, key) {
+    let result = "";
+    for (let i = 0; i < text.length; i++) {
+        let code = text.charCodeAt(i);
+        result += String.fromCharCode(code - key);
+    }
+    return result;
+}
