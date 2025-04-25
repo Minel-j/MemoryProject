@@ -327,8 +327,7 @@ function mainInscription() {
     createInputNomUtil.placeholder = "3 caractères minimum"
     createInputNomUtil.type = "text"
     createInputNomUtil.style.width = "94%"
-    createInputNomUtil.value = "toto"
-    createDivNomUtil.appendChild(createInputNomUtil);
+       createDivNomUtil.appendChild(createInputNomUtil);
 
 
     //Création du label du nom d'utilisateur
@@ -354,8 +353,7 @@ function mainInscription() {
     createInputEmailUtil.placeholder = "votre email"
     createInputEmailUtil.type = "email"
     createInputEmailUtil.style.width = "94%"
-    createInputEmailUtil.value = "toto@toto.fr"
-    createDivEmailUtil.appendChild(createInputEmailUtil);
+       createDivEmailUtil.appendChild(createInputEmailUtil);
 
 
     //Création du label de l'email
@@ -381,7 +379,6 @@ function mainInscription() {
     createInputPwdUtil.placeholder = "votre mot de passe"
     createInputPwdUtil.type = "password"
     createInputPwdUtil.style.width = "94%"
-    createInputPwdUtil.value = "azerty@12"
     createDivPwdUtil.appendChild(createInputPwdUtil);
 
     //Création du label du password
@@ -455,7 +452,6 @@ function mainInscription() {
     createInputVerifPwdUtil.placeholder = "confirmez le mot de passe"
     createInputVerifPwdUtil.type = "password"
     createInputVerifPwdUtil.style.width = "94%"
-    createInputVerifPwdUtil.value = "azerty@12"
     createDivVerifPwdUtil.appendChild(createInputVerifPwdUtil);
 
     //Création du label de verification du password
