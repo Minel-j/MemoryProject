@@ -603,13 +603,14 @@ function boutonInscription() {
         const pwdVerifBDD = document.getElementById('inputPwdUtil').value.trim()
         const emailVerifBDD = document.getElementById('inputEmailUtil').value.trim()
         const nameVerifBDD = document.getElementById('inputNomUtil').value.trim()
-        // let pwdVerifBDDEncrypt = encrypt(pwdVerifBDD, cleChiffre)
+        let pwdVerifBDDEncrypt = encrypt(pwdVerifBDD, cleChiffre)
+console.log("btn inscription clic");
 
 
         const userData = {
             nom: nameVerifBDD,
             mail: emailVerifBDD,
-            pwd: pwdVerifBDD
+            pwd: pwdVerifBDDEncrypt
         };
 
 
@@ -721,7 +722,7 @@ function mainConnexion() {
     createBtnResetConnexion.className = "btn btn-secondary border border-dark rounded-pill ps-4 pe-4 BtnConnexion";
     createBtnResetConnexion.textContent = "Reset";
     createDivBtnConnexion.appendChild(createBtnResetConnexion);
-
+    BtnPageConnexion()
 }
 
 function BtnPageConnexion() {
@@ -730,15 +731,22 @@ function BtnPageConnexion() {
         const emailVerifBDD = document.getElementById('inputEmailConnexion').value.trim()
         let usersLocal = JSON.parse(localStorage.getItem('listeUsers'))
         let verif = false
+console.log("ca click connexion");
 
 
 
         let emailSession = ''
         let nomSession = ''
         for (let index = 0; index < usersLocal.length; index++) {
-            // let pwdVerifBDDDecrypt = decrypt(usersLocal[index].pwd, cleChiffre)
+            let pwdVerifBDDDecrypt = decrypt(usersLocal[index].pwd, cleChiffre)
+            console.log("usersLocal[index].pwd : "+usersLocal[index].pwd);
+            console.log("pwdVerifBDD : "+pwdVerifBDD);
+            
+            
 
-            if (usersLocal[index].mail == emailVerifBDD && usersLocal[index].pwd == pwdVerifBDD) {
+            if (usersLocal[index].mail == emailVerifBDD && pwdVerifBDDDecrypt == pwdVerifBDD) {
+                console.log("if true");
+                
                 verif = true
                 emailSession = usersLocal[index].mail
                 nomSession = usersLocal[index].nom
