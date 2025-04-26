@@ -145,7 +145,7 @@ input::placeholder {
         flex-direction: column !important;
         margin-left: 50px !important;
         margin-right: 50px !important;
-        justify-content: center !important;
+        align-items: center !important;
     }
 
  

@@ -604,7 +604,7 @@ function boutonInscription() {
         const emailVerifBDD = document.getElementById('inputEmailUtil').value.trim()
         const nameVerifBDD = document.getElementById('inputNomUtil').value.trim()
         let pwdVerifBDDEncrypt = encrypt(pwdVerifBDD, cleChiffre)
-console.log("btn inscription clic");
+
 
 
         const userData = {
@@ -731,7 +731,7 @@ function BtnPageConnexion() {
         const emailVerifBDD = document.getElementById('inputEmailConnexion').value.trim()
         let usersLocal = JSON.parse(localStorage.getItem('listeUsers'))
         let verif = false
-console.log("ca click connexion");
+
 
 
 
@@ -739,13 +739,12 @@ console.log("ca click connexion");
         let nomSession = ''
         for (let index = 0; index < usersLocal.length; index++) {
             let pwdVerifBDDDecrypt = decrypt(usersLocal[index].pwd, cleChiffre)
-            console.log("usersLocal[index].pwd : "+usersLocal[index].pwd);
-            console.log("pwdVerifBDD : "+pwdVerifBDD);
+
             
             
 
             if (usersLocal[index].mail == emailVerifBDD && pwdVerifBDDDecrypt == pwdVerifBDD) {
-                console.log("if true");
+
                 
                 verif = true
                 emailSession = usersLocal[index].mail
