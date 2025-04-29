@@ -37,12 +37,12 @@ function structureNavBar() {
         // Créer une div enfant
         const childDiv = document.createElement("div");
         childDiv.id = `divEnfant${i}`;
-        childDiv.className = ''
+        childDiv.className = 'm-1 w-100 d-flex justify-content-center'
 
         // Créer un bouton
         const button = document.createElement("button");
         button.id = `buttonNavBar${i}`;
-        button.className = 'btn btn-success btnNavBar'
+        button.className = 'btn btn-success btnNavBar w-75'
 
         // Ajouter le bouton à la div enfant
         childDiv.appendChild(button);
@@ -783,13 +783,13 @@ function mainProfil() {
     // Création d'une div pour l'ensemble de la main
     const containerMainContent = document.createElement("div");
     containerMainContent.id = "mainContent";
-    containerMainContent.className = "ps-2 mb-2";
+    containerMainContent.className = "ps-2 pe-2 mb-2";
     document.getElementById('divMainContent').appendChild(containerMainContent);
 
     //Création de la div contenant l'image du profil
     const containerDivImageProfil = document.createElement('div');
     containerDivImageProfil.id = "divImageProfil";
-    containerDivImageProfil.className = "d-flex justify-content-center mt-3 mb-4";
+    containerDivImageProfil.className = "d-flex justify-content-center  mb-5";
     containerMainContent.appendChild(containerDivImageProfil);
 
     //Création de de l'image du profil
@@ -1132,7 +1132,7 @@ function mainJouer() {
         yV = tailleSessionMemory[0]
         xH = tailleSessionMemory[1]
     } else {
-        alert("Veuillez vous connecter avant de commencer à jouer!")
+        alert("Veuillez choisir un jeu avant de commencer à jouer!")
         document.getElementById('mainContent').remove()
         mainConnexion()
     }

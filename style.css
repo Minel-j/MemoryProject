@@ -163,7 +163,7 @@ input::placeholder {
     }
 
     #divMainContent.divMainContentConnexion{
-        margin: 70px !important;
+        margin: 50px 50px 70px 50px!important;
     }
 
     #H2MainContent{
